@@ -6,7 +6,9 @@
     <h3>all bugs</h3>
     <ul>
         {% for bug in bugs %}
-        <li>{{ bug.bug_id }}</li>
+        <li>{{ bug.bug_id }}:
+            <a href="bug/{{ bug.bug_id }}/">{{ bug.short_desc }}</a>
+        </li>
         {% endfor %}
     </ul>
 

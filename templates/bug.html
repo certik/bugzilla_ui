@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>bug</title>
+</head>
+<body>
+    <a href="/ui/">Issues</a>
+    <h3>bug details</h3>
+    <h3>comments</h3>
+    {% for comment in bug.longdescs_set.all %}
+        <p class="comment">
+            <pre>{{ comment.thetext }}</pre>
+        </p>
+    {% endfor %}
+
+</body>
+</html>
