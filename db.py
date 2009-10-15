@@ -1,5 +1,5 @@
 from sqlalchemy import (Table, Column, Integer, String, MetaData, ForeignKey,
-        create_engine)
+        DateTime, create_engine)
 from sqlalchemy.orm import mapper, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -22,8 +22,9 @@ class Bugs(Base):
 class Longdescs(Base):
     __tablename__ = "longdescs"
 
-    bug_id = Column(Integer, primary_key=True)
+    bug_id = Column(Integer, ForeignKey(Bugs.bug_id))
     thetext = Column(String)
+    bug_when = Column(DateTime, primary_key=True)
 
     def __init__(self, bug_id, thetext):
         self.bug_id = bug_id
@@ -38,10 +39,11 @@ engine = create_engine("mysql://bugzilla:pass@localhost/bugzilla",
 Session = sessionmaker(bind=engine)
 session = Session()
 
-def show_bug(bug):
-    desc = session.query(Longdescs).filter(Longdescs.bug_id==bug.bug_id).one()
+def show_bug(bug_id):
+    desc = session.query(Longdescs).filter(Longdescs.bug_id==bug_id).all()
+    print "s"
     print desc
 
 print "bugs 116:"
 bug = session.query(Bugs).filter(Bugs.bug_id==116).one()
-show_bug(bug)
+show_bug(bug.bug_id)
