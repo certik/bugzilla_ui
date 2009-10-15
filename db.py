@@ -1,6 +1,6 @@
 from sqlalchemy import (Table, Column, Integer, String, MetaData, ForeignKey,
         create_engine)
-from sqlalchemy.orm import mapper
+from sqlalchemy.orm import mapper, sessionmaker
 
 class Bugs(object):
     def __init__(self, bug_id, product_id):
@@ -21,5 +21,7 @@ engine = create_engine("mysql://bugzilla:4Y7ZkdfBXP4D@localhost/bugzilla",
         echo=True)
 metadata.create_all(engine)
 mapper(Bugs, bugs_table)
-
-print "ok"
+Session = sessionmaker(bind=engine)
+session = Session()
+print "all bugs:"
+print session.query(Bugs).all()
