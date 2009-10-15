@@ -19,10 +19,10 @@ class Bugs(Base):
         return "<Bugs bug_id=%d, product_id=%d>" % (self.bug_id,
                 self.product_id)
 
-class Longdescs(object):
-    __tablename__ = "bugs"
+class Longdescs(Base):
+    __tablename__ = "longdescs"
 
-    bug_id = Column(Integer)
+    bug_id = Column(Integer, primary_key=True)
     thetext = Column(String)
 
     def __init__(self, bug_id, thetext):
@@ -39,7 +39,8 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def show_bug(bug):
-    print bug
+    desc = session.query(Longdescs).filter(Longdescs.bug_id==bug.bug_id).one()
+    print desc
 
 print "bugs 116:"
 bug = session.query(Bugs).filter(Bugs.bug_id==116).one()
