@@ -9,6 +9,9 @@
 
 from django.db import models
 
+class Profiles(models.Model):
+    pass
+
 class AttachData(models.Model):
     id = models.IntegerField(primary_key=True)
     thedata = models.TextField()
@@ -276,7 +279,7 @@ class Logincookies(models.Model):
         db_table = u'logincookies'
 
 class Longdescs(models.Model):
-    bug_id = models.IntegerField()
+    bug = models.ForeignKey(Bugs)
     who = models.IntegerField()
     bug_when = models.DateTimeField()
     work_time = models.DecimalField(max_digits=7, decimal_places=2)
