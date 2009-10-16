@@ -4,6 +4,13 @@
 </head>
 <body>
     <h3>Issues</h3>
+    <form action="/ui/" method="POST">
+        Search
+        {{ form.issue_types }}
+        for
+        {{ form.search_text }}
+        <input type="submit" value="Search"/>
+    </form>
     <ul>
         {% for bug in bugs %}
         <li>{{ bug.bug_id }}:
