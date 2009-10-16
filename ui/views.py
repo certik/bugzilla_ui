@@ -18,15 +18,18 @@ class SearchForm(forms.Form):
     search_text = forms.CharField(required=False)
 
 def index_view(request):
+    bugs = Bugs.objects
     if request.method == "GET":
         form = SearchForm(request.GET)
         assert form.is_valid()
         search = form.cleaned_data["search_text"]
-        bugs = Bugs.objects.filter(short_desc__icontains=search). \
-                order_by("bug_id").reverse()
+        issue_types = int(form.cleaned_data["issue_types"])
+        bugs = bugs.filter(short_desc__icontains=search)
+        if issue_types == 1:
+            bugs = bugs.exclude(bug_status__in=["CLOSED", "RESOLVED"])
     else:
         form = SearchForm()
-        bugs = Bugs.objects.order_by("bug_id").reverse()
+    bugs = bugs.order_by("bug_id").reverse()
     return render_to_response("index.html", {
         "bugs": bugs,
         "form": form,
