@@ -54,12 +54,6 @@ class Bugs(models.Model):
     class Meta:
         db_table = u'bugs'
 
-class AttachData(models.Model):
-    id = models.IntegerField(primary_key=True)
-    thedata = models.TextField()
-    class Meta:
-        db_table = u'attach_data'
-
 class Attachments(models.Model):
     attach_id = models.IntegerField(primary_key=True)
     bug = models.ForeignKey(Bugs)
@@ -75,6 +69,13 @@ class Attachments(models.Model):
     modification_time = models.DateTimeField()
     class Meta:
         db_table = u'attachments'
+
+class AttachData(models.Model):
+    id = models.ForeignKey(Attachments, primary_key=True, db_column="id")
+    thedata = models.TextField()
+    class Meta:
+        db_table = u'attach_data'
+
 
 class BugGroupMap(models.Model):
     bug_id = models.IntegerField(unique=True)

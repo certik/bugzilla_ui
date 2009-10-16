@@ -1,13 +1,15 @@
 from django.shortcuts import render_to_response
 from django.conf.urls.defaults import patterns
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django import forms
+from django.views.generic import list_detail
 
 from models import Bugs, Attachments
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
     (r'^bug/(\d+)/$', 'bug_view'),
+    (r'^attachment/(\d+)/$', 'attachment_view'),
 )
 
 class SearchForm(forms.Form):
@@ -41,7 +43,6 @@ def bug_view(request, bug_id):
     comments_first = comments[0]
     comments_other = comments[1:]
     attachments = bug.attachments_set.all()
-    #attachments = Attachments.objects.filter(bug_id=bug_id)
     return render_to_response("bug.html", {
         "bug": bug,
         "comments_first": comments_first,
@@ -49,6 +50,14 @@ def bug_view(request, bug_id):
         "form": form,
         "attachments": attachments,
         })
+
+def attachment_view(request, attach_id):
+    attachment = Attachments.objects.get(attach_id=attach_id)
+    data = attachment.attachdata_set.get().thedata
+    response = HttpResponse(data)
+    response["Content-Disposition"] = "attachment; filename=%s" % \
+            attachment.filename
+    return response
 
 def redirect_index(request):
     return HttpResponseRedirect("ui/")

@@ -33,12 +33,12 @@
     </div>
     {% endfor %}
     <p>
-    <h4>attachments:</h4>
+    <h4>Attachments:</h4>
     <ul>
     {% for a in attachments %}
     <li>
-    {{ a.filename }} (submitted by {{ a.submitter.realname }},
-        {{ a.creation_ts }})
+    <a href="/ui/attachment/{{ a.attach_id }}">{{ a.filename }}</a>
+        (submitted by {{ a.submitter.realname }}, {{ a.creation_ts }})
     </li>
     {% endfor %}
     </ul>
