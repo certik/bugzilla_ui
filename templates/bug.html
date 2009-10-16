@@ -32,6 +32,17 @@
         </p>
     </div>
     {% endfor %}
+    <p>
+    <h4>attachments:</h4>
+    <ul>
+    {% for a in attachments %}
+    <li>
+    {{ a.filename }} (submitted by {{ a.submitter.realname }},
+        {{ a.creation_ts }})
+    </li>
+    {% endfor %}
+    </ul>
+    </p>
 
 </body>
 </html>

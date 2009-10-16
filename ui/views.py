@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns
 from django.http import HttpResponseRedirect
 from django import forms
 
-from models import Bugs
+from models import Bugs, Attachments
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
@@ -40,11 +40,14 @@ def bug_view(request, bug_id):
     comments = bug.longdescs_set.all()
     comments_first = comments[0]
     comments_other = comments[1:]
+    attachments = bug.attachments_set.all()
+    #attachments = Attachments.objects.filter(bug_id=bug_id)
     return render_to_response("bug.html", {
         "bug": bug,
         "comments_first": comments_first,
         "comments_other": comments_other,
         "form": form,
+        "attachments": attachments,
         })
 
 def redirect_index(request):

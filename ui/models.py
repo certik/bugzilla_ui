@@ -21,6 +21,38 @@ class Profiles(models.Model):
     class Meta:
         db_table = u'profiles'
 
+class Bugs(models.Model):
+    bug_id = models.IntegerField(primary_key=True)
+    assigned_to = models.IntegerField()
+    bug_file_loc = models.TextField(blank=True)
+    bug_severity = models.CharField(max_length=192)
+    bug_status = models.CharField(max_length=192)
+    creation_ts = models.DateTimeField(null=True, blank=True)
+    delta_ts = models.DateTimeField()
+    short_desc = models.CharField(max_length=765)
+    op_sys = models.CharField(max_length=192)
+    priority = models.CharField(max_length=192)
+    product_id = models.IntegerField()
+    rep_platform = models.CharField(max_length=192)
+    reporter = models.IntegerField()
+    version = models.CharField(max_length=192)
+    component_id = models.IntegerField()
+    resolution = models.CharField(max_length=192)
+    target_milestone = models.CharField(max_length=60)
+    qa_contact = models.IntegerField(null=True, blank=True)
+    status_whiteboard = models.TextField()
+    votes = models.IntegerField()
+    keywords = models.TextField()
+    lastdiffed = models.DateTimeField(null=True, blank=True)
+    everconfirmed = models.IntegerField()
+    reporter_accessible = models.IntegerField()
+    cclist_accessible = models.IntegerField()
+    estimated_time = models.DecimalField(max_digits=7, decimal_places=2)
+    remaining_time = models.DecimalField(max_digits=7, decimal_places=2)
+    deadline = models.DateTimeField(null=True, blank=True)
+    alias = models.CharField(unique=True, max_length=60, blank=True)
+    class Meta:
+        db_table = u'bugs'
 
 class AttachData(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -30,7 +62,7 @@ class AttachData(models.Model):
 
 class Attachments(models.Model):
     attach_id = models.IntegerField(primary_key=True)
-    bug_id = models.IntegerField()
+    bug = models.ForeignKey(Bugs)
     creation_ts = models.DateTimeField()
     description = models.TextField()
     mimetype = models.TextField()
@@ -66,39 +98,6 @@ class BugStatus(models.Model):
     is_open = models.IntegerField()
     class Meta:
         db_table = u'bug_status'
-
-class Bugs(models.Model):
-    bug_id = models.IntegerField(primary_key=True)
-    assigned_to = models.IntegerField()
-    bug_file_loc = models.TextField(blank=True)
-    bug_severity = models.CharField(max_length=192)
-    bug_status = models.CharField(max_length=192)
-    creation_ts = models.DateTimeField(null=True, blank=True)
-    delta_ts = models.DateTimeField()
-    short_desc = models.CharField(max_length=765)
-    op_sys = models.CharField(max_length=192)
-    priority = models.CharField(max_length=192)
-    product_id = models.IntegerField()
-    rep_platform = models.CharField(max_length=192)
-    reporter = models.IntegerField()
-    version = models.CharField(max_length=192)
-    component_id = models.IntegerField()
-    resolution = models.CharField(max_length=192)
-    target_milestone = models.CharField(max_length=60)
-    qa_contact = models.IntegerField(null=True, blank=True)
-    status_whiteboard = models.TextField()
-    votes = models.IntegerField()
-    keywords = models.TextField()
-    lastdiffed = models.DateTimeField(null=True, blank=True)
-    everconfirmed = models.IntegerField()
-    reporter_accessible = models.IntegerField()
-    cclist_accessible = models.IntegerField()
-    estimated_time = models.DecimalField(max_digits=7, decimal_places=2)
-    remaining_time = models.DecimalField(max_digits=7, decimal_places=2)
-    deadline = models.DateTimeField(null=True, blank=True)
-    alias = models.CharField(unique=True, max_length=60, blank=True)
-    class Meta:
-        db_table = u'bugs'
 
 class BugsActivity(models.Model):
     bug_id = models.IntegerField()
