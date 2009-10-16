@@ -3,11 +3,12 @@
     <title>bugs</title>
 </head>
 <body>
-    <h3>all bugs</h3>
+    <h3>Issues</h3>
     <ul>
         {% for bug in bugs %}
         <li>{{ bug.bug_id }}:
             <a href="bug/{{ bug.bug_id }}/">{{ bug.short_desc }}</a>
+            (status: {{ bug.bug_status }})
         </li>
         {% endfor %}
     </ul>
