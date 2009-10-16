@@ -18,8 +18,8 @@ class SearchForm(forms.Form):
     search_text = forms.CharField()
 
 def index_view(request):
-    if request.method == "POST":
-        form = SearchForm(request.POST)
+    if request.method == "GET":
+        form = SearchForm(request.GET)
         if form.is_valid():
             print "form is ok"
     else:
@@ -32,6 +32,12 @@ def index_view(request):
         })
 
 def bug_view(request, bug_id):
+    if request.method == "GET":
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            print "form is ok"
+    else:
+        form = SearchForm()
     bug = Bugs.objects.get(bug_id=bug_id)
     comments = bug.longdescs_set.all()
     comments_first = comments[0]
@@ -40,6 +46,7 @@ def bug_view(request, bug_id):
         "bug": bug,
         "comments_first": comments_first,
         "comments_other": comments_other,
+        "form": form,
         })
 
 def redirect_index(request):

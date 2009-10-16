@@ -5,6 +5,13 @@
 </head>
 <body>
     <a href="/ui/">Issues</a>
+    <form action="/ui/bug/{{ bug.bug_id }}/" method="GET">
+        Search
+        {{ form.issue_types }}
+        for
+        {{ form.search_text }}
+        <input type="submit" value="Search"/>
+    </form>
     <h3>Issue {{ bug.bug_id }}: {{ bug.short_desc }}</h3>
     <div class="comment">
         <p class="comment_header">
