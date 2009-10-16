@@ -10,7 +10,17 @@
 from django.db import models
 
 class Profiles(models.Model):
-    pass
+    userid = models.IntegerField(primary_key=True)
+    login_name = models.CharField(unique=True, max_length=765)
+    cryptpassword = models.CharField(max_length=384, blank=True)
+    realname = models.CharField(max_length=765)
+    disabledtext = models.TextField()
+    mybugslink = models.IntegerField()
+    extern_id = models.CharField(max_length=192, blank=True)
+    disable_mail = models.IntegerField()
+    class Meta:
+        db_table = u'profiles'
+
 
 class AttachData(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -357,18 +367,6 @@ class ProfileSetting(models.Model):
     setting_value = models.CharField(max_length=96)
     class Meta:
         db_table = u'profile_setting'
-
-class Profiles(models.Model):
-    userid = models.IntegerField(primary_key=True)
-    login_name = models.CharField(unique=True, max_length=765)
-    cryptpassword = models.CharField(max_length=384, blank=True)
-    realname = models.CharField(max_length=765)
-    disabledtext = models.TextField()
-    mybugslink = models.IntegerField()
-    extern_id = models.CharField(max_length=192, blank=True)
-    disable_mail = models.IntegerField()
-    class Meta:
-        db_table = u'profiles'
 
 class ProfilesActivity(models.Model):
     userid = models.ForeignKey(Profiles, db_column='userid')
