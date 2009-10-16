@@ -10,7 +10,7 @@
     {% for comment in bug.longdescs_set.all %}
         <hr>
         <p class="comment_header">
-        Reported by {{ comment.who_id }}, {{ comment.bug_when }}
+        Reported by {{ comment.who.realname }}, {{ comment.bug_when }}
         <p>
         <p class="comment">
             <pre>{{ comment.thetext }}</pre>
