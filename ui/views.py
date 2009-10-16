@@ -5,6 +5,7 @@ from django import forms
 from django.views.generic import list_detail
 
 from models import Bugs, Attachments
+from bugzilla_ui import settings
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
@@ -49,6 +50,7 @@ def bug_view(request, bug_id):
         "comments_other": comments_other,
         "form": form,
         "attachments": attachments,
+        "MEDIA_URL": settings.MEDIA_URL,
         })
 
 def attachment_view(request, attach_id):
