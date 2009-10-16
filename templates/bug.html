@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="/media_files/style.css" type="text/css" />
 </head>
 <body>
-    <a href="/ui/">Issues</a>
-    <form action="/ui/" method="GET">
+    <a href="/bugs-ui/">Issues</a>
+    <form action="/bugs-ui/" method="GET">
         Search
         {{ form.issue_types }}
         for
@@ -40,7 +40,7 @@
     {{ a.filename }}
         (submitted by {{ a.submitter.realname }}, {{ a.creation_ts }})
         <br/>
-        <a href="/ui/attachment/{{ a.attach_id }}">download</a>
+        <a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>
         <br/>
         <br/>
     </li>

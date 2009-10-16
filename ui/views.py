@@ -60,4 +60,4 @@ def attachment_view(request, attach_id):
     return response
 
 def redirect_index(request):
-    return HttpResponseRedirect("ui/")
+    return HttpResponseRedirect("/bugs-ui/")
