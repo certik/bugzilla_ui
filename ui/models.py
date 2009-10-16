@@ -280,7 +280,7 @@ class Logincookies(models.Model):
 
 class Longdescs(models.Model):
     bug = models.ForeignKey(Bugs)
-    who = models.IntegerField()
+    who = models.ForeignKey(Profiles, db_column="who")
     bug_when = models.DateTimeField()
     work_time = models.DecimalField(max_digits=7, decimal_places=2)
     thetext = models.TextField()

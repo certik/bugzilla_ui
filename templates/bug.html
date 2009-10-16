@@ -1,13 +1,17 @@
 <html>
 <head>
-    <title>bug</title>
+    <title>Issue {{ bug.bug_id }} - {{ bug.short_desc }}</title>
     <link rel="stylesheet" href="/media_files/style.css" type="text/css" />
 </head>
 <body>
     <a href="/ui/">Issues</a>
-    <h3>bug details</h3>
-    <h3>comments</h3>
+    <h3>Issue {{ bug.bug_id }} - {{ bug.short_desc }}</h3>
+    <h4>comments:</h4>
     {% for comment in bug.longdescs_set.all %}
+        <hr>
+        <p class="comment_header">
+        Reported by {{ comment.who_id }}, {{ comment.bug_when }}
+        <p>
         <p class="comment">
             <pre>{{ comment.thetext }}</pre>
         </p>
