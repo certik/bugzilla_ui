@@ -15,7 +15,14 @@ def index_view(request):
 
 def bug_view(request, bug_id):
     bug = Bugs.objects.get(bug_id=bug_id)
-    return render_to_response("bug.html", {"bug": bug})
+    comments = bug.longdescs_set.all()
+    comments_first = comments[0]
+    comments_other = comments[1:]
+    return render_to_response("bug.html", {
+        "bug": bug,
+        "comments_first": comments_first,
+        "comments_other": comments_other,
+        })
 
 def redirect_index(request):
     return HttpResponseRedirect("ui/")

@@ -5,16 +5,25 @@
 </head>
 <body>
     <a href="/ui/">Issues</a>
-    <h3>Issue {{ bug.bug_id }} - {{ bug.short_desc }}</h3>
-    <h4>comments:</h4>
-    {% for comment in bug.longdescs_set.all %}
-        <hr>
+    <h3>Issue {{ bug.bug_id }}: {{ bug.short_desc }}</h3>
+    <div class="comment">
         <p class="comment_header">
-        Reported by {{ comment.who.realname }}, {{ comment.bug_when }}
+            Reported by {{ comments_first.who.realname }},
+                {{ comments_first.bug_when }}
         <p>
-        <p class="comment">
+        <p class="comment_text">
+            <pre>{{ comments_first.thetext }}</pre>
+        </p>
+    </div>
+    {% for comment in comments_other %}
+    <div class="comment">
+        <p class="comment_header">
+        Comment by {{ comment.who.realname }}, {{ comment.bug_when }}
+        <p>
+        <p class="comment_text">
             <pre>{{ comment.thetext }}</pre>
         </p>
+    </div>
     {% endfor %}
 
 </body>

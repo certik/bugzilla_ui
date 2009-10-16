@@ -1,4 +1,7 @@
-p.comment {
-    border: 1px solid blue;
-    background-color: green;
+div.comment {
+    border: 4px solid blue;
+    background-color: white;
+}
+p.comment_header {
+    font-weight: bold;
 }
