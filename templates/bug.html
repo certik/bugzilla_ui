@@ -37,8 +37,12 @@
     <ul>
     {% for a in attachments %}
     <li>
-    <a href="/ui/attachment/{{ a.attach_id }}">{{ a.filename }}</a>
+    {{ a.filename }}
         (submitted by {{ a.submitter.realname }}, {{ a.creation_ts }})
+        <br/>
+        <a href="/ui/attachment/{{ a.attach_id }}">download</a>
+        <br/>
+        <br/>
     </li>
     {% endfor %}
     </ul>
