@@ -11,33 +11,29 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
 )
 
 class SearchForm(forms.Form):
-    issue_types = forms.ChoiceField([
+    issue_types = forms.ChoiceField(choices=[
         (0, "All issues"),
         (1, "Open issues"),
         ], initial=1)
-    search_text = forms.CharField()
+    search_text = forms.CharField(required=False)
 
 def index_view(request):
     if request.method == "GET":
         form = SearchForm(request.GET)
-        if form.is_valid():
-            print "form is ok"
+        assert form.is_valid()
+        search = form.cleaned_data["search_text"]
+        bugs = Bugs.objects.filter(short_desc__icontains=search). \
+                order_by("bug_id").reverse()
     else:
         form = SearchForm()
-
-    bugs = Bugs.objects.order_by("bug_id").reverse()
+        bugs = Bugs.objects.order_by("bug_id").reverse()
     return render_to_response("index.html", {
         "bugs": bugs,
         "form": form,
         })
 
 def bug_view(request, bug_id):
-    if request.method == "GET":
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            print "form is ok"
-    else:
-        form = SearchForm()
+    form = SearchForm()
     bug = Bugs.objects.get(bug_id=bug_id)
     comments = bug.longdescs_set.all()
     comments_first = comments[0]
