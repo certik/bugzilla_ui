@@ -18,7 +18,7 @@
     {% for comment in comments_other %}
     <div class="comment">
         <p class="comment_header">
-        Comment by {{ comment.who.realname }}, {{ comment.bug_when }}
+        Comment {{ forloop.counter }} by {{ comment.who.realname }}, {{ comment.bug_when }}
         <p>
         <p class="comment_text">
             <pre>{{ comment.thetext }}</pre>
