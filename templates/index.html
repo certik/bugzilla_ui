@@ -1,8 +1,10 @@
-<html>
-<head>
-    <title>Issues</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block caption %}
+Issues
+{% endblock %}
+
+{% block content %}
     <h3>Issues</h3>
     <form action="/bugs-ui/" method="GET">
         Search
@@ -19,6 +21,5 @@
         </li>
         {% endfor %}
     </ul>
+{% endblock %}
 
-</body>
-</html>

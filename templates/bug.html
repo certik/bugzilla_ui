@@ -1,9 +1,10 @@
-<html>
-<head>
-    <title>Issue {{ bug.bug_id }} - {{ bug.short_desc }}</title>
-    <link rel="stylesheet" href="{{ MEDIA_URL }}/style.css" type="text/css" />
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block caption %}
+Issue {{ bug.bug_id }} - {{ bug.short_desc }}
+{% endblock %}
+
+{% block content %}
     <a href="/bugs-ui/">Issues</a>
     <form action="/bugs-ui/" method="GET">
         Search
@@ -47,6 +48,5 @@
     {% endfor %}
     </ul>
     </p>
+{% endblock %}
 
-</body>
-</html>
