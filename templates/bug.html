@@ -5,48 +5,71 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
 {% endblock %}
 
 {% block content %}
-    <a href="/bugs-ui/">Issues</a>
-    <form action="/bugs-ui/" method="GET">
-        Search
-        {{ form.issue_types }}
-        for
-        {{ form.search_text }}
-        <input type="submit" value="Search"/>
-    </form>
-    <h3>Issue {{ bug.bug_id }}: {{ bug.short_desc }}</h3>
-    <div class="comment">
-        <p class="comment_header">
-            Reported by {{ comments_first.who.realname }},
-                {{ comments_first.bug_when }}
+    <div id="content">
+        <div id="header" class="panel">
+            <a href="/bugs-ui/">Issues</a>
+            <span class="bar">|</span>
+            <a href="/bugs-ui/new/">New Issue</a>
+            <span class="bar">|</span>
+            <form action="/bugs-ui/" method="GET">
+                Search {{ form.issue_types }} for {{ form.search_text }}
+                <input type="submit" value="Search"/>
+            </form>
+            <span class="bar">|</span>
+            <a href="/bugs-ui/search/">Advanced Search</a>
+        </div>
+        <div id="issue" class="panel">
+            <b>Issue <a href="/bugs-ui/bug/{{ bug.bug_id }}/">{{ bug.bug_id }}</a>: {{ bug.short_desc }}</b>
+            <span id="prevnext">
+                <a href="/bugs-ui/bug/{{ prev_bug }}/">&laquo; Prev</a>
+                <a href="/bugs-ui/bug/{{ next_bug }}/">Next &raquo;</a>
+            </span>
+        </div>
+        <div id="metadata">
+            <table>
+                <tr><th><b>Status:</b></td><td>xxx</td></tr>
+                <tr><th><b>Owner:</b></td><td>yyy</td></tr>
+            </table>
+        </div>
+        <div id="comments">
+            <div class="comment">
+                <div class="comment_head">
+                    Reported by <a href="/bugs-ui/u/{{ comments_first.who.login_name }}/">{{ comments_first.who.realname }}</a>,
+                    {{ comments_first.bug_when }}
+                </div>
+                <div class="comment_body">
+                    <pre>{{ comments_first.thetext }}</pre>
+                </div>
+            </div>
+            {% for comment in comments_other %}
+            <div class="comment">
+                <div class="comment_head">
+                    Comment <a href="/bugs-ui/bug/{{ bug.bug_id }}/#{{ forloop.counter }}">{{ forloop.counter }}</a>
+                    by <a href="/bugs-ui/u/{{ comments_first.who.login_name }}/">{{ comment.who.realname }}</a>,
+                    {{ comment.bug_when }}
+                </div>
+                <div class="comment_body">
+                    <pre>{{ comment.thetext }}</pre>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
         <p>
-        <p class="comment_text">
-            <pre>{{ comments_first.thetext }}</pre>
+        <h4>Attachments:</h4>
+        <ul>
+        {% for a in attachments %}
+        <li>
+        {{ a.filename }}
+            (submitted by {{ a.submitter.realname }}, {{ a.creation_ts }})
+            <br/>
+            <a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>
+            <br/>
+            <br/>
+        </li>
+        {% endfor %}
+        </ul>
         </p>
     </div>
-    {% for comment in comments_other %}
-    <div class="comment">
-        <p class="comment_header">
-        Comment {{ forloop.counter }} by {{ comment.who.realname }}, {{ comment.bug_when }}
-        <p>
-        <p class="comment_text">
-            <pre>{{ comment.thetext }}</pre>
-        </p>
-    </div>
-    {% endfor %}
-    <p>
-    <h4>Attachments:</h4>
-    <ul>
-    {% for a in attachments %}
-    <li>
-    {{ a.filename }}
-        (submitted by {{ a.submitter.realname }}, {{ a.creation_ts }})
-        <br/>
-        <a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>
-        <br/>
-        <br/>
-    </li>
-    {% endfor %}
-    </ul>
-    </p>
 {% endblock %}
 
