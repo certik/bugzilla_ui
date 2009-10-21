@@ -6,18 +6,9 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
 
 {% block content %}
     <div id="content">
-        <div id="header" class="panel">
-            <a href="/bugs-ui/">Issues</a>
-            <span class="bar">|</span>
-            <a href="/bugs-ui/new/">New Issue</a>
-            <span class="bar">|</span>
-            <form action="/bugs-ui/" method="GET">
-                Search {{ form.issue_types }} for {{ form.search_text }}
-                <input type="submit" value="Search"/>
-            </form>
-            <span class="bar">|</span>
-            <a href="/bugs-ui/search/">Advanced Search</a>
-        </div>
+
+        {% include "header.html" %}
+
         <div id="issue" class="panel">
             <b>Issue <a href="http://hpfem.org/bugs/show_bug.cgi?id={{ bug.bug_id }}">{{ bug.bug_id }}</a>: {{ bug.short_desc }}</b>
             <span id="prevnext">
