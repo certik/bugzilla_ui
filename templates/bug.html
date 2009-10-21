@@ -29,6 +29,8 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
             <table>
                 <tr><td><b>Status:</b></td><td><a class="label" href="/bugs-ui/?status={{ bug.bug_status }}">{{ bug.bug_status|lower|capfirst }}</a></td></tr>
                 <tr><td><b>Product:</b></td><td><a class="label" href="/bugs-ui/?product={{ bug.product.id }}">{{ bug.product.name }}</a></td></tr>
+                <tr><td><b>Platform:</b></td><td>{{ bug.rep_platform }}</td></tr>
+                <tr><td><b>Priority:</b></td><td>{{ bug.priority }}</td></tr>
                 <tr><td>Bugzilla:</td><td><a href="http://hpfem.org/bugs/show_bug.cgi?id={{ bug.bug_id }}">{{ bug.bug_id }}</a></td></tr>
             </table>
         </div>
