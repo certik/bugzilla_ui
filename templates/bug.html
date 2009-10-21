@@ -27,8 +27,9 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
         </div>
         <div id="metadata">
             <table>
-                <tr><th><b>Status:</b></td><td>{{ bug.bug_status }}</td></tr>
-                <tr><th><b>Product:</b></td><td>{{ bug.product.name }}</td></tr>
+                <tr><td><b>Status:</b></td><td>{{ bug.bug_status }}</td></tr>
+                <tr><td><b>Product:</b></td><td>{{ bug.product.name }}</td></tr>
+                <tr><td>Bugzilla:</td><td><a href="http://hpfem.org/bugs/show_bug.cgi?id={{ bug.bug_id }}">{{ bug.bug_id }}</a></td></tr>
             </table>
         </div>
         <div id="comments">
