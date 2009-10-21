@@ -55,22 +55,26 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
             </div>
             {% endfor %}
         </div>
+        {% if attachments %}
+        <div class="attachments">
+            <b>Attachments:</b>
+            <table class="attachments">
+                <tr>
+                    <th>File</th>
+                    <th>Submitter</th>
+                    <th>Date</th>
+                </tr>
 
-        <p>
-        <h4>Attachments:</h4>
-        <ul>
-        {% for a in attachments %}
-        <li>
-        {{ a.filename }}
-            (submitted by {{ a.submitter.realname }}, {{ a.creation_ts }})
-            <br/>
-            <a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>
-            <br/>
-            <br/>
-        </li>
-        {% endfor %}
-        </ul>
-        </p>
+                {% for a in attachments %}
+                <tr>
+                    <td>{{ a.filename }} (view, <a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>)</td>
+                    <td>{{ a.submitter.realname }}</td>
+                    <td>{{ a.creation_ts }})</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 

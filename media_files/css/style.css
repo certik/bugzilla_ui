@@ -125,3 +125,24 @@ table.issues_list td {
     border-color: #bbbbbb;
     font-size: 11pt;
 }
+
+table.attachments {
+    border-style: hidden;
+    border-collapse: collapse;
+}
+
+table.attachments th {
+    border-width: 1px 1px;
+    padding: 4px;
+    border-style: inset;
+    border-color: #bbbbbb;
+    background-color: #e5ecf9;
+}
+
+table.attachments td {
+    border-width: 1px 0px;
+    padding: 4px 10px;
+    border-style: inset;
+    border-color: #bbbbbb;
+    font-size: 11pt;
+}
