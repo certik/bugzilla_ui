@@ -21,6 +21,21 @@ class Profiles(models.Model):
     class Meta:
         db_table = u'profiles'
 
+class Products(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(unique=True, max_length=192)
+    classification_id = models.IntegerField()
+    description = models.TextField(blank=True)
+    milestoneurl = models.TextField()
+    disallownew = models.IntegerField()
+    votesperuser = models.IntegerField()
+    maxvotesperbug = models.IntegerField()
+    votestoconfirm = models.IntegerField()
+    defaultmilestone = models.CharField(max_length=60)
+    class Meta:
+        db_table = u'products'
+
+
 class Bugs(models.Model):
     bug_id = models.IntegerField(primary_key=True)
     assigned_to = models.IntegerField()
@@ -32,7 +47,7 @@ class Bugs(models.Model):
     short_desc = models.CharField(max_length=765)
     op_sys = models.CharField(max_length=192)
     priority = models.CharField(max_length=192)
-    product_id = models.IntegerField()
+    product = models.ForeignKey(Products)
     rep_platform = models.CharField(max_length=192)
     reporter = models.IntegerField()
     version = models.CharField(max_length=192)
@@ -75,6 +90,21 @@ class AttachData(models.Model):
     thedata = models.TextField()
     class Meta:
         db_table = u'attach_data'
+
+class Longdescs(models.Model):
+    bug = models.ForeignKey(Bugs)
+    who = models.ForeignKey(Profiles, db_column="who")
+    bug_when = models.DateTimeField()
+    work_time = models.DecimalField(max_digits=7, decimal_places=2)
+    thetext = models.TextField()
+    isprivate = models.IntegerField()
+    already_wrapped = models.IntegerField()
+    comment_id = models.IntegerField(primary_key=True)
+    type = models.IntegerField()
+    extra_data = models.CharField(max_length=765, blank=True)
+    class Meta:
+        db_table = u'longdescs'
+
 
 """
 class BugGroupMap(models.Model):
@@ -287,23 +317,7 @@ class Logincookies(models.Model):
     lastused = models.DateTimeField()
     class Meta:
         db_table = u'logincookies'
-"""
 
-class Longdescs(models.Model):
-    bug = models.ForeignKey(Bugs)
-    who = models.ForeignKey(Profiles, db_column="who")
-    bug_when = models.DateTimeField()
-    work_time = models.DecimalField(max_digits=7, decimal_places=2)
-    thetext = models.TextField()
-    isprivate = models.IntegerField()
-    already_wrapped = models.IntegerField()
-    comment_id = models.IntegerField(primary_key=True)
-    type = models.IntegerField()
-    extra_data = models.CharField(max_length=765, blank=True)
-    class Meta:
-        db_table = u'longdescs'
-
-"""
 class Milestones(models.Model):
     product_id = models.IntegerField(unique=True)
     value = models.CharField(unique=True, max_length=60)
@@ -348,20 +362,6 @@ class Priority(models.Model):
     isactive = models.IntegerField()
     class Meta:
         db_table = u'priority'
-
-class Products(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(unique=True, max_length=192)
-    classification_id = models.IntegerField()
-    description = models.TextField(blank=True)
-    milestoneurl = models.TextField()
-    disallownew = models.IntegerField()
-    votesperuser = models.IntegerField()
-    maxvotesperbug = models.IntegerField()
-    votestoconfirm = models.IntegerField()
-    defaultmilestone = models.CharField(max_length=60)
-    class Meta:
-        db_table = u'products'
 
 class ProfileSetting(models.Model):
     user = models.ForeignKey(Profiles)

@@ -27,8 +27,8 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
         </div>
         <div id="metadata">
             <table>
-                <tr><th><b>Status:</b></td><td>xxx</td></tr>
-                <tr><th><b>Owner:</b></td><td>yyy</td></tr>
+                <tr><th><b>Status:</b></td><td>{{ bug.bug_status }}</td></tr>
+                <tr><th><b>Product:</b></td><td>{{ bug.product.name }}</td></tr>
             </table>
         </div>
         <div id="comments">

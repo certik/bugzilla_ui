@@ -23,16 +23,18 @@ Issues
         <table class="issues_list">
             <tr>
                 <th>ID</th>
-                <th>Summary</th>
+                <th>Product</th>
                 <th>Status</th>
+                <th>Summary</th>
             </tr>
             {% for bug in bugs %}
             <tr>
                 <td>{{ bug.bug_id }}</td>
+                <td>{{ bug.product.name }}</td>
+                <td>{{ bug.bug_status }}</td>
                 <td>
                     <a href="bug/{{ bug.bug_id }}/">{{ bug.short_desc }}</a>
                 </td>
-                <td>{{ bug.bug_status }}</td>
             </tr>
             {% endfor %}
         </table>
