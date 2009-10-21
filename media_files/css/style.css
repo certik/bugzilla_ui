@@ -94,26 +94,26 @@ body, html {
 }
 
 table.issues_list {
-    border-width: 1px 1px 1px 1px;
-    border-spacing: 0px;
-    border-style: hidden hidden hidden hidden;
-    border-color: gray gray gray gray;
+    border-style: hidden;
     border-collapse: collapse;
-    background-color: white;
+}
+
+table.issues_list tr:hover {
+    background-color: #f0ecf9;
 }
 
 table.issues_list th {
-    border-width: 1px 1px 1px 1px;
-    padding: 4px 4px 4px 4px;
-    border-style: inset inset inset inset;
-    border-color: gray gray gray gray;
-    background-color: white;
+    border-width: 1px 1px;
+    padding: 4px;
+    border-style: inset;
+    border-color: #bbbbbb;
+    background-color: #e5ecf9;
 }
 
 table.issues_list td {
-    border-width: 1px 1px 1px 1px;
-    padding: 4px 4px 4px 4px;
-    border-style: inset inset inset inset;
-    border-color: gray gray gray gray;
-    background-color: white;
+    border-width: 1px 0px;
+    padding: 4px 10px;
+    border-style: inset;
+    border-color: #bbbbbb;
+    font-size: 11pt;
 }
