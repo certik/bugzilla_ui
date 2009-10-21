@@ -76,7 +76,7 @@ class AttachData(models.Model):
     class Meta:
         db_table = u'attach_data'
 
-
+"""
 class BugGroupMap(models.Model):
     bug_id = models.IntegerField(unique=True)
     group_id = models.IntegerField()
@@ -287,6 +287,7 @@ class Logincookies(models.Model):
     lastused = models.DateTimeField()
     class Meta:
         db_table = u'logincookies'
+"""
 
 class Longdescs(models.Model):
     bug = models.ForeignKey(Bugs)
@@ -302,6 +303,7 @@ class Longdescs(models.Model):
     class Meta:
         db_table = u'longdescs'
 
+"""
 class Milestones(models.Model):
     product_id = models.IntegerField(unique=True)
     value = models.CharField(unique=True, max_length=60)
@@ -515,4 +517,4 @@ class WhineSchedules(models.Model):
     mailto_type = models.IntegerField()
     class Meta:
         db_table = u'whine_schedules'
-
+"""
