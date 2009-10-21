@@ -94,11 +94,26 @@ body, html {
 }
 
 table.issues_list {
-    border-top: 3px solid #C3D9FF;
+    border-width: 1px 1px 1px 1px;
+    border-spacing: 0px;
+    border-style: hidden hidden hidden hidden;
+    border-color: gray gray gray gray;
     border-collapse: collapse;
+    background-color: white;
+}
+
+table.issues_list th {
+    border-width: 1px 1px 1px 1px;
+    padding: 4px 4px 4px 4px;
+    border-style: inset inset inset inset;
+    border-color: gray gray gray gray;
+    background-color: white;
 }
 
 table.issues_list td {
-    border: 1px solid gray;
-    font-size: 12pt;
+    border-width: 1px 1px 1px 1px;
+    padding: 4px 4px 4px 4px;
+    border-style: inset inset inset inset;
+    border-color: gray gray gray gray;
+    background-color: white;
 }
