@@ -98,9 +98,11 @@ table.issues_list {
     border-collapse: collapse;
 }
 
+/*
 table.issues_list tr:hover {
     background-color: #f0ecf9;
 }
+*/
 
 table.issues_list th {
     border-width: 1px 1px;
