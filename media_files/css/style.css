@@ -62,6 +62,12 @@ body, html {
 
 .label {
     color: green !important;
+    text-decoration: none;
+}
+
+.label:hover {
+    color: green !important;
+    text-decoration: underline;
 }
 
 #content {
