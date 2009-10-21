@@ -35,6 +35,16 @@ class Products(models.Model):
     class Meta:
         db_table = u'products'
 
+class Components(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=192)
+    product = models.ForeignKey(Products)
+    #initialowner = models.ForeignKey(Profiles, db_column='initialowner')
+    #initialqacontact = models.ForeignKey(Profiles, null=True, db_column='initialqacontact', blank=True)
+    description = models.TextField()
+    class Meta:
+        db_table = u'components'
+
 
 class Bugs(models.Model):
     bug_id = models.IntegerField(primary_key=True)
@@ -51,7 +61,7 @@ class Bugs(models.Model):
     rep_platform = models.CharField(max_length=192)
     reporter = models.IntegerField()
     version = models.CharField(max_length=192)
-    component_id = models.IntegerField()
+    component = models.ForeignKey(Components)
     resolution = models.CharField(max_length=192)
     target_milestone = models.CharField(max_length=60)
     qa_contact = models.IntegerField(null=True, blank=True)
@@ -180,16 +190,6 @@ class ComponentCc(models.Model):
     component_id = models.IntegerField(unique=True)
     class Meta:
         db_table = u'component_cc'
-
-class Components(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=192)
-    product_id = models.IntegerField(unique=True)
-    initialowner = models.ForeignKey(Profiles, db_column='initialowner')
-    initialqacontact = models.ForeignKey(Profiles, null=True, db_column='initialqacontact', blank=True)
-    description = models.TextField()
-    class Meta:
-        db_table = u'components'
 
 class Dependencies(models.Model):
     blocked = models.IntegerField()
