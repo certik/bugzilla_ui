@@ -35,6 +35,7 @@ def index_view(request):
     return render_to_response("index.html", {
         "bugs": bugs,
         "form": form,
+        "MEDIA_URL": settings.MEDIA_URL,
         })
 
 def bug_view(request, bug_id):

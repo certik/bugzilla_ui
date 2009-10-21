@@ -5,14 +5,20 @@ Issues
 {% endblock %}
 
 {% block content %}
-    <h3>Issues</h3>
-    <form action="/bugs-ui/" method="GET">
-        Search
-        {{ form.issue_types }}
-        for
-        {{ form.search_text }}
-        <input type="submit" value="Search"/>
-    </form>
+<div id="content">
+    <div id="header" class="panel">
+        <a href="/bugs-ui/">Issues</a>
+        <span class="bar">|</span>
+        <a href="/bugs-ui/new/">New Issue</a>
+        <span class="bar">|</span>
+        <form action="/bugs-ui/" method="GET">
+            Search {{ form.issue_types }} for {{ form.search_text }}
+            <input type="submit" value="Search"/>
+        </form>
+        <span class="bar">|</span>
+        <a href="/bugs-ui/search/">Advanced Search</a>
+    </div>
+
     <ul>
         {% for bug in bugs %}
         <li>{{ bug.bug_id }}:
@@ -21,5 +27,6 @@ Issues
         </li>
         {% endfor %}
     </ul>
+</div>
 {% endblock %}
 
