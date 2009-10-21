@@ -54,6 +54,12 @@ def index_view(request):
 def bug_view(request, bug_id):
     form = SearchForm()
     bug = Bugs.objects.get(bug_id=bug_id)
+    prev_bug = int(bug_id)-1
+    if len(Bugs.objects.filter(bug_id=prev_bug)) == 0:
+        prev_bug = ""
+    next_bug = int(bug_id)+1
+    if len(Bugs.objects.filter(bug_id=next_bug)) == 0:
+        next_bug = ""
     comments = bug.longdescs_set.all()
     comments_first = comments[0]
     comments_other = comments[1:]
@@ -64,6 +70,8 @@ def bug_view(request, bug_id):
         "comments_first": comments_first,
         "comments_other": comments_other,
         "form": form,
+        "prev_bug": prev_bug,
+        "next_bug": next_bug,
         "attachments": attachments,
         "MEDIA_URL": settings.MEDIA_URL,
         })
