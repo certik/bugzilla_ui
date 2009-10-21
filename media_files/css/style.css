@@ -93,3 +93,12 @@ body, html {
     font-size: 8pt;
 }
 
+table.issues_list {
+    border-top: 3px solid #C3D9FF;
+    border-collapse: collapse;
+}
+
+table.issues_list td {
+    border: 1px solid gray;
+    font-size: 12pt;
+}

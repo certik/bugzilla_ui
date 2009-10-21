@@ -19,14 +19,24 @@ Issues
         <a href="/bugs-ui/search/">Advanced Search</a>
     </div>
 
-    <ul>
-        {% for bug in bugs %}
-        <li>{{ bug.bug_id }}:
-            <a href="bug/{{ bug.bug_id }}/">{{ bug.short_desc }}</a>
-            (status: {{ bug.bug_status }})
-        </li>
-        {% endfor %}
-    </ul>
+    <div id="issues">
+        <table class="issues_list">
+            <tr>
+                <th>ID</th>
+                <th>Summary</th>
+                <th>Status</th>
+            </tr>
+            {% for bug in bugs %}
+            <tr>
+                <td>{{ bug.bug_id }}</td>
+                <td>
+                    <a href="bug/{{ bug.bug_id }}/">{{ bug.short_desc }}</a>
+                </td>
+                <td>{{ bug.bug_status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 {% endblock %}
 
