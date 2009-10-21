@@ -17,8 +17,9 @@ class SearchForm(forms.Form):
     issue_types = forms.ChoiceField(choices=[
         (0, "All issues"),
         (1, "Open issues"),
-        ], initial=1)
+        ], initial=1, required=False)
     search_text = forms.CharField(required=False)
+    status = forms.CharField(required=False)
 
 def index_view(request):
     form = SearchForm()
@@ -27,10 +28,14 @@ def index_view(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             search = form.cleaned_data["search_text"]
-            issue_types = int(form.cleaned_data["issue_types"])
             bugs = bugs.filter(short_desc__icontains=search)
-            if issue_types == 1:
-                bugs = bugs.exclude(bug_status__in=["CLOSED", "RESOLVED"])
+            status = form.cleaned_data.get("status", "")
+            if status != "":
+                bugs = bugs.filter(bug_status__exact=status)
+            if form.cleaned_data["issue_types"] != "":
+                issue_types = int(form.cleaned_data["issue_types"])
+                if issue_types == 1:
+                    bugs = bugs.exclude(bug_status__in=["CLOSED", "RESOLVED"])
     bugs = bugs.order_by("bug_id").reverse()
     return render_to_response("index.html", {
         "bugs": bugs,
