@@ -20,6 +20,7 @@ class SearchForm(forms.Form):
         ], initial=1, required=False)
     search_text = forms.CharField(required=False)
     status = forms.CharField(required=False)
+    priority = forms.CharField(required=False)
     product = forms.IntegerField(required=False)
 
 def index_view(request):
@@ -32,10 +33,13 @@ def index_view(request):
             status = form.cleaned_data["status"]
             issue_types = form.cleaned_data["issue_types"]
             product = form.cleaned_data["product"]
+            priority = form.cleaned_data["priority"]
 
             bugs = bugs.filter(short_desc__icontains=search)
             if status != "":
                 bugs = bugs.filter(bug_status__exact=status)
+            if priority != "":
+                bugs = bugs.filter(priority__exact=priority)
             if product:
                 bugs = bugs.filter(product__exact=product)
             if issue_types == 1:
