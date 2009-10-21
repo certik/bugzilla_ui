@@ -27,7 +27,7 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
         </div>
         <div id="metadata">
             <table>
-                <tr><td><b>Status:</b></td><td><a class="label" href="/bugs-ui/?status={{ bug.bug_status }}">{{ bug.bug_status }}</a></td></tr>
+                <tr><td><b>Status:</b></td><td><a class="label" href="/bugs-ui/?status={{ bug.bug_status }}">{{ bug.bug_status|lower|capfirst }}</a></td></tr>
                 <tr><td><b>Product:</b></td><td><a class="label" href="/bugs-ui/?product={{ bug.product.id }}">{{ bug.product.name }}</a></td></tr>
                 <tr><td>Bugzilla:</td><td><a href="http://hpfem.org/bugs/show_bug.cgi?id={{ bug.bug_id }}">{{ bug.bug_id }}</a></td></tr>
             </table>
@@ -39,7 +39,7 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                     {{ comments_first.bug_when }}
                 </div>
                 <div class="comment_body">
-                    <pre>{{ comments_first.thetext }}</pre>
+                    <pre>{{ comments_first.thetext|urlize }}</pre>
                 </div>
             </div>
             {% for comment in comments_other %}
@@ -50,7 +50,7 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                     {{ comment.bug_when }}
                 </div>
                 <div class="comment_body">
-                    <pre>{{ comment.thetext }}</pre>
+                    <pre>{{ comment.thetext|urlize }}</pre>
                 </div>
             </div>
             {% endfor %}
