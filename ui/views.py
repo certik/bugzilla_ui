@@ -64,7 +64,6 @@ def bug_view(request, bug_id):
     comments_first = comments[0]
     comments_other = comments[1:]
     attachments = bug.attachments_set.all()
-    print bug.product.name
     return render_to_response("bug.html", {
         "bug": bug,
         "comments_first": comments_first,
@@ -73,6 +72,7 @@ def bug_view(request, bug_id):
         "prev_bug": prev_bug,
         "next_bug": next_bug,
         "attachments": attachments,
+        "keywords": bug.kws.all(),
         "MEDIA_URL": settings.MEDIA_URL,
         })
 

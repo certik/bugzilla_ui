@@ -45,6 +45,13 @@ class Components(models.Model):
     class Meta:
         db_table = u'components'
 
+class Keyworddefs(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(unique=True, max_length=192)
+    description = models.TextField(blank=True)
+    class Meta:
+        db_table = u'keyworddefs'
+
 
 class Bugs(models.Model):
     bug_id = models.IntegerField(primary_key=True)
@@ -67,7 +74,8 @@ class Bugs(models.Model):
     qa_contact = models.IntegerField(null=True, blank=True)
     status_whiteboard = models.TextField()
     votes = models.IntegerField()
-    keywords = models.TextField()
+    #keywords = models.TextField()
+    kws = models.ManyToManyField(Keyworddefs, through="Keywords")
     lastdiffed = models.DateTimeField(null=True, blank=True)
     everconfirmed = models.IntegerField()
     reporter_accessible = models.IntegerField()
@@ -114,6 +122,12 @@ class Longdescs(models.Model):
     extra_data = models.CharField(max_length=765, blank=True)
     class Meta:
         db_table = u'longdescs'
+
+class Keywords(models.Model):
+    bug_id = models.ForeignKey(Bugs, db_column="bug_id")
+    keywordid = models.ForeignKey(Keyworddefs, db_column="keywordid")
+    class Meta:
+        db_table = u'keywords'
 
 
 """
@@ -296,19 +310,6 @@ class Groups(models.Model):
     icon_url = models.TextField(blank=True)
     class Meta:
         db_table = u'groups'
-
-class Keyworddefs(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(unique=True, max_length=192)
-    description = models.TextField(blank=True)
-    class Meta:
-        db_table = u'keyworddefs'
-
-class Keywords(models.Model):
-    bug_id = models.IntegerField(unique=True)
-    keywordid = models.IntegerField()
-    class Meta:
-        db_table = u'keywords'
 
 class Logincookies(models.Model):
     cookie = models.CharField(max_length=48, primary_key=True)
