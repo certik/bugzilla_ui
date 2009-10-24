@@ -22,6 +22,7 @@ class SearchForm(forms.Form):
     status = forms.CharField(required=False)
     priority = forms.CharField(required=False)
     product = forms.IntegerField(required=False)
+    keyword = forms.IntegerField(required=False)
 
 def index_view(request):
     form = SearchForm()
@@ -34,6 +35,7 @@ def index_view(request):
             issue_types = form.cleaned_data["issue_types"]
             product = form.cleaned_data["product"]
             priority = form.cleaned_data["priority"]
+            keyword = form.cleaned_data["keyword"]
 
             bugs = bugs.filter(short_desc__icontains=search)
             if status != "":
@@ -42,6 +44,8 @@ def index_view(request):
                 bugs = bugs.filter(priority__exact=priority)
             if product:
                 bugs = bugs.filter(product__exact=product)
+            if keyword:
+                bugs = bugs.filter(kws__id__exact=keyword)
             if issue_types == 1:
                 bugs = bugs.exclude(bug_status__in=["CLOSED", "RESOLVED"])
     bugs = bugs.order_by("bug_id").reverse()
