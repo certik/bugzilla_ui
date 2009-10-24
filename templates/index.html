@@ -26,6 +26,9 @@ Issues
                 <td><a class="label" href="/bugs-ui/?priority={{ bug.priority }}">{{ bug.priority }}</a></td>
                 <td>
                     <a href="bug/{{ bug.bug_id }}/">{{ bug.short_desc }}</a>
+                    {% for kw in bug.kws.all %}
+                        <a class="label" href="/bugs-ui/?keyword={{ kw.id }}">{{ kw.name }}</a>
+                    {% endfor %}
                 </td>
             </tr>
             {% endfor %}
