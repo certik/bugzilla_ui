@@ -75,6 +75,15 @@ class Versions(models.Model):
     class Meta:
         db_table = u'versions'
 
+class Milestones(models.Model):
+    product = models.ForeignKey(Products, unique=True)
+    value = models.CharField(unique=True, max_length=60)
+    sortkey = models.IntegerField()
+    id = models.IntegerField(primary_key=True)
+    class Meta:
+        db_table = u'milestones'
+
+
 class Bugs(models.Model):
     bug_id = models.AutoField(primary_key=True)
     assigned_to = models.ForeignKey(Profiles, db_column="assigned_to",
@@ -341,14 +350,6 @@ class Logincookies(models.Model):
     lastused = models.DateTimeField()
     class Meta:
         db_table = u'logincookies'
-
-class Milestones(models.Model):
-    product_id = models.IntegerField(unique=True)
-    value = models.CharField(unique=True, max_length=60)
-    sortkey = models.IntegerField()
-    id = models.IntegerField(primary_key=True)
-    class Meta:
-        db_table = u'milestones'
 
 class Namedqueries(models.Model):
     userid = models.ForeignKey(Profiles, db_column='userid')
