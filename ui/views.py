@@ -135,6 +135,8 @@ def new_view(request):
             b.alias = None
             b.product = product
             b.component = Components.objects.filter(product=b.product).get(name="core")
+            b.priority = "Medium"
+            b.bug_status = "NEW"
             b.assigned_to = who
             b.delta_ts = datetime.datetime.today()
             b.creation_ts = datetime.datetime.today()
