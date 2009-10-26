@@ -109,7 +109,8 @@ $(document).ready(function() {
 
                 {% for a in attachments %}
                 <tr>
-                    <td>{{ a.filename }} (<a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>{% ifequal user.username a.submitter.login_name %}, <a href="/bugs-ui/attachment/{{ a.attach_id }}/delete/">delete</a>{% endifequal %})</td>
+                    <td>{{ a.filename }} (<a href="/bugs-ui/attachment/{{ a.attach_id }}/view/">view</a>,
+                        <a href="/bugs-ui/attachment/{{ a.attach_id }}">download</a>{% ifequal user.username a.submitter.login_name %}, <a href="/bugs-ui/attachment/{{ a.attach_id }}/delete/">delete</a>{% endifequal %})</td>
                     <td>{{ a.submitter.realname }}</td>
                     <td>{{ a.creation_ts }})</td>
                 </tr>

@@ -25,6 +25,7 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^logout/$', 'logout_view'),
     (r'^attachment/(\d+)/$', 'attachment_view'),
     (r'^attachment/(\d+)/delete/$', 'delete_attachment'),
+    (r'^attachment/(\d+)/view/$', 'view_attachment'),
 )
 
 def index_view(request):
@@ -223,6 +224,11 @@ def delete_attachment(request, attach_id):
         return HttpResponseRedirect("/bugs-ui/bug/%s/" % bug_id)
     else:
         raise Http404
+
+def view_attachment(request, attach_id):
+    attachment = Attachments.objects.get(attach_id=attach_id)
+    data = attachment.attachdata_set.get().thedata
+    return HttpResponse(data, mimetype="text/plain")
 
 def attachment_view(request, attach_id):
     attachment = Attachments.objects.get(attach_id=attach_id)
