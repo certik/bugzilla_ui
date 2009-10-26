@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render_to_response
 from django.conf.urls.defaults import patterns
 from django.http import HttpResponseRedirect, HttpResponse
@@ -9,7 +11,7 @@ from django.views.generic import list_detail
 from django.template import RequestContext
 from django.db.models import Q
 
-from models import Bugs, Attachments, Profiles
+from models import Bugs, Attachments, Profiles, Longdescs
 from bugzilla_ui import settings
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
@@ -70,8 +72,23 @@ def index_view(request):
 
 def bug_view(request, bug_id):
     search_form = SearchForm()
-    comment_form = CommentForm()
     bug = Bugs.objects.get(bug_id=bug_id)
+    if request.method == "GET" and request.user.is_authenticated():
+        comment_form = CommentForm(request.GET)
+        if comment_form.is_valid():
+            text = comment_form.cleaned_data["comment_text"]
+            if text != "":
+                who = Profiles.objects.get(login_name=request.user.username)
+                l = Longdescs(bug=bug, who=who)
+                l.thetext = text
+                l.bug_when = datetime.datetime.today()
+                l.work_time = 0
+                l.isprivate = 0
+                l.already_wrapped = 0
+                l.type = 0
+                l.save()
+                return HttpResponseRedirect("/bugs-ui/bug/%s/" % bug_id)
+    comment_form = CommentForm()
     prev_bug = int(bug_id)-1
     if len(Bugs.objects.filter(bug_id=prev_bug)) == 0:
         prev_bug = ""
