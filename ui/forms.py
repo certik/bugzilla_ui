@@ -14,7 +14,7 @@ class SearchForm(forms.Form):
     search_text = forms.CharField(required=False)
     status = forms.CharField(required=False)
     priority = forms.CharField(required=False)
-    product = forms.IntegerField(required=False)
+    product = forms.CharField(required=False)
     keyword = forms.IntegerField(required=False)
 
 class CommentForm(forms.Form):

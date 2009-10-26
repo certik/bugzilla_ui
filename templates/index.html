@@ -21,7 +21,7 @@ Issues
             {% for bug in bugs %}
             <tr>
                 <td>{{ bug.bug_id }}</td>
-                <td><a class="label" href="/bugs-ui/?product={{ bug.product.id }}">{{ bug.product.name }}</a></td>
+                <td><a class="label" href="/bugs-ui/?product={{ bug.product.name }}">{{ bug.product.name }}</a></td>
                 <td><a class="label" href="/bugs-ui/?status={{ bug.bug_status }}">{{ bug.bug_status|lower|capfirst }}</a></td>
                 <td><a class="label" href="/bugs-ui/?priority={{ bug.priority }}">{{ bug.priority }}</a></td>
                 <td>

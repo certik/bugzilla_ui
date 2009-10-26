@@ -46,7 +46,7 @@ def index_view(request):
             if priority != "":
                 bugs = bugs.filter(priority__exact=priority)
             if product:
-                bugs = bugs.filter(product__exact=product)
+                bugs = bugs.filter(product__name__exact=product)
             if keyword:
                 bugs = bugs.filter(kws__id__exact=keyword)
             if issue_types == 1:
