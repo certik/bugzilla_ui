@@ -4,6 +4,19 @@
 Issue {{ bug.bug_id }} - {{ bug.short_desc }}
 {% endblock %}
 
+{% block script %}
+<script type="text/javascript">
+function attach_file_click(event) {
+    event.preventDefault();
+    $("div.attachmentarea").show();
+    $(event.target).hide();
+}
+$(document).ready(function() {
+    $("#attachafile").click(attach_file_click);
+});
+</script>
+{% endblock %}
+
 {% block content %}
     <div id="content">
 
@@ -69,6 +82,11 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                 <div class="comment_body">
                     <form action="/bugs-ui/bug/{{ bug.bug_id }}/" method="GET">
                         {{ comment_form.comment_text }}<br/>
+                        <div class="attachmentarea">
+                            {{ comment_form.attachment }}
+                        </div>
+                        <a href="" id="attachafile">Attach a file</a><br/>
+                        <br/>
                         <input type="submit" value="Post comment"/>
                     </form>
                 </div>

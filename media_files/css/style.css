@@ -146,3 +146,7 @@ table.attachments td {
     border-color: #bbbbbb;
     font-size: 11pt;
 }
+
+div.attachmentarea {
+    display: none;
+}
