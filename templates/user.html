@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+Issues User {{ user.login_name }}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+
+        {% include "header.html" %}
+
+        <div id="issue" class="panel">
+            <b>User: {{ user.login_name }}</b>
+        </div>
+        <div id="metadata_user">
+            <table>
+                <tr><td><b>Login name:</b></td><td>{{ user.login_name }}</a></td></tr>
+                <tr><td><b>Real name:</b></td><td>{{ user.realname }}</a></td></tr>
+                <tr><td><b>Pass:</b></td><td>{{ user.cryptpassword }}</a></td></tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

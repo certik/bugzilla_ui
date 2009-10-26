@@ -4,12 +4,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django import forms
 from django.views.generic import list_detail
 
-from models import Bugs, Attachments
+from models import Bugs, Attachments, Profiles
 from bugzilla_ui import settings
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
     (r'^bug/(\d+)/$', 'bug_view'),
+    (r'^u/(\S+)/$', 'user_view'),
     (r'^attachment/(\d+)/$', 'attachment_view'),
 )
 
@@ -77,6 +78,15 @@ def bug_view(request, bug_id):
         "next_bug": next_bug,
         "attachments": attachments,
         "keywords": bug.kws.all(),
+        "MEDIA_URL": settings.MEDIA_URL,
+        })
+
+def user_view(request, login_name):
+    form = SearchForm()
+    user = Profiles.objects.get(login_name__exact=login_name)
+    return render_to_response("user.html", {
+        "user": user,
+        "form": form,
         "MEDIA_URL": settings.MEDIA_URL,
         })
 
