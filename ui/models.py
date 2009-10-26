@@ -68,6 +68,13 @@ class RepPlatform(models.Model):
     class Meta:
         db_table = u'rep_platform'
 
+class Versions(models.Model):
+    value = models.CharField(unique=True, max_length=192)
+    product = models.ForeignKey(Products, unique=True)
+    id = models.IntegerField(primary_key=True)
+    class Meta:
+        db_table = u'versions'
+
 class Bugs(models.Model):
     bug_id = models.AutoField(primary_key=True)
     assigned_to = models.ForeignKey(Profiles, db_column="assigned_to",
@@ -469,13 +476,6 @@ class UserGroupMap(models.Model):
     grant_type = models.IntegerField(unique=True)
     class Meta:
         db_table = u'user_group_map'
-
-class Versions(models.Model):
-    value = models.CharField(unique=True, max_length=192)
-    product_id = models.IntegerField(unique=True)
-    id = models.IntegerField(primary_key=True)
-    class Meta:
-        db_table = u'versions'
 
 class Votes(models.Model):
     who = models.ForeignKey(Profiles, db_column='who')

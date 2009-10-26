@@ -12,7 +12,7 @@ from django.template import RequestContext
 from django.db.models import Q
 
 from models import (Bugs, Attachments, Profiles, Longdescs, Products,
-        Components, OpSys, RepPlatform)
+        Components, OpSys, RepPlatform, Versions)
 from forms import SearchForm, CommentForm, NewIssueForm
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
@@ -135,6 +135,8 @@ def new_view(request):
             b.short_desc = summary
             b.alias = None
             b.product = product
+            # get the first row in the Versions table by default:
+            b.version = product.versions_set.all()[0].value
             b.component = Components.objects.filter(product=b.product).get(name="core")
             b.op_sys = OpSys.objects.get(value="All").value
             b.rep_platform = RepPlatform.objects.get(value="All").value
