@@ -32,17 +32,17 @@ class SearchForm(forms.Form):
     keyword = forms.IntegerField(required=False)
 
 def index_view(request):
-    form = SearchForm()
+    search_form = SearchForm()
     bugs = Bugs.objects
     if request.method == "GET":
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            search = form.cleaned_data["search_text"]
-            status = form.cleaned_data["status"]
-            issue_types = form.cleaned_data["issue_types"]
-            product = form.cleaned_data["product"]
-            priority = form.cleaned_data["priority"]
-            keyword = form.cleaned_data["keyword"]
+        search_form = SearchForm(request.GET)
+        if search_form.is_valid():
+            search = search_form.cleaned_data["search_text"]
+            status = search_form.cleaned_data["status"]
+            issue_types = search_form.cleaned_data["issue_types"]
+            product = search_form.cleaned_data["product"]
+            priority = search_form.cleaned_data["priority"]
+            keyword = search_form.cleaned_data["keyword"]
 
             bugs = bugs.filter(short_desc__icontains=search)
             if status != "":
@@ -58,12 +58,12 @@ def index_view(request):
     bugs = bugs.order_by("bug_id").reverse()
     return render_to_response("index.html", {
         "bugs": bugs,
-        "form": form,
+        "search_form": search_form,
         },
         context_instance=RequestContext(request))
 
 def bug_view(request, bug_id):
-    form = SearchForm()
+    search_form = SearchForm()
     bug = Bugs.objects.get(bug_id=bug_id)
     prev_bug = int(bug_id)-1
     if len(Bugs.objects.filter(bug_id=prev_bug)) == 0:
@@ -79,7 +79,7 @@ def bug_view(request, bug_id):
         "bug": bug,
         "comments_first": comments_first,
         "comments_other": comments_other,
-        "form": form,
+        "search_form": search_form,
         "prev_bug": prev_bug,
         "next_bug": next_bug,
         "attachments": attachments,
@@ -88,17 +88,16 @@ def bug_view(request, bug_id):
         context_instance=RequestContext(request))
 
 def user_view(request, login_name):
-    form = SearchForm()
-    print "AUTH:", request.user.is_authenticated()
+    search_form = SearchForm()
     user = Profiles.objects.get(login_name__exact=login_name)
     return render_to_response("user.html", {
         "user_info": user,
-        "form": form,
+        "search_form": search_form,
         },
         context_instance=RequestContext(request))
 
 def login_view(request):
-    form = SearchForm()
+    search_form = SearchForm()
     if request.method == "GET":
         login_form  = AuthenticationForm()
     else:
@@ -111,7 +110,7 @@ def login_view(request):
             redirect_to = "/bugs-ui/"
             return HttpResponseRedirect(redirect_to)
     return render_to_response("login.html", {
-        "form": form,
+        "search_form": search_form,
         "login_form": login_form,
         },
         context_instance=RequestContext(request))
