@@ -139,7 +139,10 @@ def new_view(request):
             b.version = product.versions_set.all()[0].value
             # get the first row in the Milestones table by default:
             b.target_milestone = product.milestones_set.all()[0].value
-            b.component = Components.objects.filter(product=b.product).get(name="core")
+            try:
+                b.component = Components.objects.filter(product=b.product).get(name="core")
+            except Components.DoesNotExist:
+                b.component = Components.objects.filter(product=b.product).all()[0]
             b.op_sys = OpSys.objects.get(value="All").value
             b.rep_platform = RepPlatform.objects.get(value="All").value
             b.priority = "Medium"
