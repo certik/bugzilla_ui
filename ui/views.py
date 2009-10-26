@@ -17,6 +17,7 @@ from bugzilla_ui import settings
 urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
     (r'^bug/(\d+)/$', 'bug_view'),
+    (r'^bug/(\d+)/delete/(\d+)/$', 'bug_delete_comment'),
     (r'^u/(\S+)/$', 'user_view'),
     (r'^login/$', 'login_view'),
     (r'^logout/$', logout, {"next_page": "/bugs-ui/"}),
@@ -69,6 +70,12 @@ def index_view(request):
         "search_form": search_form,
         },
         context_instance=RequestContext(request))
+
+def bug_delete_comment(request, bug_id, comment_id):
+    bug = Bugs.objects.get(bug_id=bug_id)
+    comment = bug.longdescs_set.get(comment_id=comment_id)
+    comment.delete()
+    return HttpResponseRedirect("/bugs-ui/bug/%s/" % bug_id)
 
 def bug_view(request, bug_id):
     search_form = SearchForm()

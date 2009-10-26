@@ -51,6 +51,8 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                     Comment <a href="/bugs-ui/bug/{{ bug.bug_id }}/#{{ forloop.counter }}">{{ forloop.counter }}</a>
                     by <a href="/bugs-ui/u/{{ comments_first.who.login_name }}/">{{ comment.who.realname }}</a>,
                     {{ comment.bug_when }}
+
+                    <a href="/bugs-ui/bug/{{ bug.bug_id }}/delete/{{ comment.comment_id }}">Delete comment</a>
                 </div>
                 <div class="comment_body">
                     <pre>{{ comment.thetext|urlize }}</pre>
