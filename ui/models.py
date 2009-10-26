@@ -60,6 +60,13 @@ class OpSys(models.Model):
     class Meta:
         db_table = u'op_sys'
 
+class RepPlatform(models.Model):
+    id = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=192)
+    sortkey = models.IntegerField()
+    isactive = models.IntegerField()
+    class Meta:
+        db_table = u'rep_platform'
 
 class Bugs(models.Model):
     bug_id = models.AutoField(primary_key=True)
@@ -389,14 +396,6 @@ class Quips(models.Model):
     approved = models.IntegerField()
     class Meta:
         db_table = u'quips'
-
-class RepPlatform(models.Model):
-    id = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=192)
-    sortkey = models.IntegerField()
-    isactive = models.IntegerField()
-    class Meta:
-        db_table = u'rep_platform'
 
 class Resolution(models.Model):
     id = models.IntegerField(primary_key=True)
