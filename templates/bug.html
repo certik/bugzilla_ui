@@ -95,6 +95,11 @@ $(document).ready(function() {
                             </div>
                             <a href="" id="attachafile">Attach a file</a><br/>
                             <br/>
+                            {% for label in keywords_fields %}
+                                {{ label }}
+                            {% endfor %}
+                            <br/>
+                            <br/>
                             <input type="submit" value="Post comment"/>
                         </div>
                     </form>

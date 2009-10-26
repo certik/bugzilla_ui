@@ -60,6 +60,11 @@ body, html {
     width: 40%;
 }
 
+.label_in_field {
+    color: green !important;
+    text-decoration: none;
+}
+
 .label {
     color: green !important;
     text-decoration: none;

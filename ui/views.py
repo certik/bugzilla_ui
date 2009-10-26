@@ -10,9 +10,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail
 from django.template import RequestContext
 from django.db.models import Q
+from django.utils.safestring import mark_safe
+
 
 from models import (Bugs, Attachments, Profiles, Longdescs, Products,
-        Components, OpSys, RepPlatform, AttachData)
+        Components, OpSys, RepPlatform, AttachData, Keyworddefs)
 from forms import SearchForm, CommentForm, NewIssueForm
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
@@ -118,6 +120,33 @@ def bug_view(request, bug_id):
         comments_first = None
     comments_other = comments[1:]
     attachments = bug.attachments_set.all()
+    keywords = bug.kws.all()
+    from django import forms
+    class LabelChoiceField(object):
+
+        def __init__(self, id, queryset=None, initial=None,
+                html_class="label_in_field"):
+            self.id = id
+            self.initial = initial
+            self.html_class = html_class
+
+        def __unicode__(self):
+            return mark_safe(u'<input type="text" name="id_%d" class="%s" value="%s"/>' % (self.id, self.html_class, self.convert(self.initial)))
+
+        def convert(self, obj):
+            if obj:
+                return self.label_from_instance(obj)
+            else:
+                return ""
+
+        def label_from_instance(self, obj):
+            return obj.name
+
+    keywords_fields = [LabelChoiceField(id,
+            queryset=Keyworddefs.objects.all(),
+            initial=kw) for id, kw in enumerate(keywords)]
+    keywords_fields.append(LabelChoiceField(len(keywords),
+            queryset=Keyworddefs.objects.all()))
     return render_to_response("bug.html", {
         "bug": bug,
         "comments_first": comments_first,
@@ -126,7 +155,8 @@ def bug_view(request, bug_id):
         "prev_bug": prev_bug,
         "next_bug": next_bug,
         "attachments": attachments,
-        "keywords": bug.kws.all(),
+        "keywords_fields": keywords_fields,
+        "keywords": keywords,
         },
         context_instance=RequestContext(request))
 
