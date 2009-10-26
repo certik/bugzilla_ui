@@ -17,9 +17,29 @@ function comment_area_click(event) {
     $("div.controls").show();
 }
 
+function label_input_focus(event) {
+    event.preventDefault();
+    $(event.target).next().children("ul").show();
+    $(event.target).next().css("left", $(event.target).position().left);
+}
+function label_input_blur(event) {
+    event.preventDefault();
+    $(event.target).parent().hide();
+}
+function menu_click(event) {
+    event.preventDefault();
+    var item_val = $(event.target).text();
+    var input_field = $(event.target).parent().parent().prev();
+    input_field.val(item_val);
+    input_field.next().children("ul").hide();
+}
+
 $(document).ready(function() {
     $("#attachafile").click(attach_file_click);
     $("#comment_area").click(comment_area_click);
+    $("ul.menu li").click(menu_click);
+    $("input.label_in_field").focus(label_input_focus);
+    $("ul.menu").hover("", label_input_blur);
 });
 </script>
 {% endblock %}
