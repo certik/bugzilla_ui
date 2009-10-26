@@ -24,6 +24,7 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^login/$', 'login_view'),
     (r'^logout/$', 'logout_view'),
     (r'^attachment/(\d+)/$', 'attachment_view'),
+    (r'^attachment/(\d+)/delete/$', 'delete_attachment'),
 )
 
 def index_view(request):
@@ -209,6 +210,18 @@ def login_view(request):
 
 def logout_view(request):
     return logout(request, next_page=request.REQUEST.get("next", "/bugs-ui/"))
+
+@login_required
+def delete_attachment(request, attach_id):
+    attachment = Attachments.objects.get(attach_id=attach_id)
+    bug_id = attachment.bug.bug_id
+    data = attachment.attachdata_set.get()
+    if request.user.username == attachment.submitter.login_name:
+        data.delete()
+        attachment.delete()
+        return HttpResponseRedirect("/bugs-ui/bug/%s/" % bug_id)
+    else:
+        raise Http404
 
 def attachment_view(request, attach_id):
     attachment = Attachments.objects.get(attach_id=attach_id)
