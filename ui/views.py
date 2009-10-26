@@ -169,14 +169,15 @@ def bug_view(request, bug_id):
             self.id = id
             self.initial = initial
             self.html_class = html_class
+            self.queryset = queryset
 
         def __unicode__(self):
             div = """
 <div class="menu">
-<ul id="menu_%d" class="menu">
-    <li>1</li>
-    <li>2</li>
-</ul></div>""" % self.id
+<ul id="menu_%d" class="menu">""" % self.id
+            for q in self.queryset:
+                div += "<li>%s</li>" % q.name
+            div += "</ul></div>"
             return mark_safe(u'<input type="text" name="label_%d" id="label_%d" class="%s" value="%s"/>%s' % (self.id, self.id, self.html_class, self.convert(self.initial), div))
 
         def convert(self, obj):
