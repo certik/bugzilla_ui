@@ -12,7 +12,7 @@ from django.template import RequestContext
 from django.db.models import Q
 
 from models import (Bugs, Attachments, Profiles, Longdescs, Products,
-        Components, OpSys, RepPlatform)
+        Components, OpSys, RepPlatform, AttachData)
 from forms import SearchForm, CommentForm, NewIssueForm
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
@@ -80,8 +80,18 @@ def bug_view(request, bug_id):
                 who = Profiles.objects.get(login_name=request.user.username)
                 l = Longdescs(bug=bug, who=who)
                 if attachment:
-                    text += "Got attachment: %s\n" % attachment
-                    text += attachment.read()
+                    #text += "Got attachment: %s\n" % attachment
+                    a = Attachments(bug=bug, submitter=who)
+                    a.filename = attachment.name
+                    a.creation_ts = datetime.datetime.today()
+                    a.modification_time = datetime.datetime.today()
+                    a.isobsolete = 0
+                    a.isprivate = 0
+                    a.isurl = 0
+                    a.save()
+                    d = AttachData(id=a)
+                    d.thedata = attachment.read()
+                    d.save()
                 l.thetext = text
                 l.bug_when = datetime.datetime.today()
                 l.work_time = 0

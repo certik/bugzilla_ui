@@ -120,7 +120,7 @@ class Bugs(models.Model):
         db_table = u'bugs'
 
 class Attachments(models.Model):
-    attach_id = models.IntegerField(primary_key=True)
+    attach_id = models.AutoField(primary_key=True)
     bug = models.ForeignKey(Bugs)
     creation_ts = models.DateTimeField()
     description = models.TextField()
