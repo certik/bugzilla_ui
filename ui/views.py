@@ -32,6 +32,10 @@ class SearchForm(forms.Form):
     product = forms.IntegerField(required=False)
     keyword = forms.IntegerField(required=False)
 
+class CommentForm(forms.Form):
+    comment_text = forms.CharField(required=False,
+            widget=forms.Textarea(attrs={"cols": "80"}))
+
 def index_view(request):
     search_form = SearchForm()
     bugs = Bugs.objects
@@ -66,6 +70,7 @@ def index_view(request):
 
 def bug_view(request, bug_id):
     search_form = SearchForm()
+    comment_form = CommentForm()
     bug = Bugs.objects.get(bug_id=bug_id)
     prev_bug = int(bug_id)-1
     if len(Bugs.objects.filter(bug_id=prev_bug)) == 0:
@@ -82,6 +87,7 @@ def bug_view(request, bug_id):
         "comments_first": comments_first,
         "comments_other": comments_other,
         "search_form": search_form,
+        "comment_form": comment_form,
         "prev_bug": prev_bug,
         "next_bug": next_bug,
         "attachments": attachments,

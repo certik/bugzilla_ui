@@ -57,6 +57,23 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                 </div>
             </div>
             {% endfor %}
+            <div class="comment">
+            {% if user.is_authenticated %}
+                <div class="comment_head">
+                    Add a comment
+                </div>
+                <div class="comment_body">
+                    <form action="/bugs-ui/bug/{{ bug.bug_id }}/" method="GET">
+                        {{ comment_form.comment_text }}<br/>
+                        <input type="submit" value="Post comment"/>
+                    </form>
+                </div>
+            {% else %}
+                <div class="comment_head">
+                    <a href="/bugs-ui/login/">Login</a> to add a comment.
+                </div>
+            {% endif %}
+            </div>
         </div>
         {% if attachments %}
         <div class="attachments">
