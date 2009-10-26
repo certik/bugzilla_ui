@@ -4,6 +4,7 @@ import os
 root_dir = os.path.dirname(os.path.abspath(__file__))
 
 DEBUG = True
+#DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -71,6 +72,16 @@ ROOT_URLCONF = 'bugzilla_ui.urls'
 TEMPLATE_DIRS = (
             root_dir + "/templates",
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "bugzilla_ui.ui.context_processors.search_form",
+)
+
+
 
 AUTHENTICATION_BACKENDS = (
         'bugzilla_ui.ui.backends.BugzillaBackend',

@@ -2,17 +2,17 @@ import datetime
 
 from django.shortcuts import render_to_response
 from django.conf.urls.defaults import patterns
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.contrib.auth.views import logout
-from django import forms
+from django.contrib.auth.decorators import login_required
 from django.views.generic import list_detail
 from django.template import RequestContext
 from django.db.models import Q
 
 from models import Bugs, Attachments, Profiles, Longdescs
-from bugzilla_ui import settings
+from forms import SearchForm, CommentForm
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
@@ -23,21 +23,6 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^logout/$', logout, {"next_page": "/bugs-ui/"}),
     (r'^attachment/(\d+)/$', 'attachment_view'),
 )
-
-class SearchForm(forms.Form):
-    issue_types = forms.ChoiceField(choices=[
-        (0, "All issues"),
-        (1, "Open issues"),
-        ], initial=1, required=False)
-    search_text = forms.CharField(required=False)
-    status = forms.CharField(required=False)
-    priority = forms.CharField(required=False)
-    product = forms.IntegerField(required=False)
-    keyword = forms.IntegerField(required=False)
-
-class CommentForm(forms.Form):
-    comment_text = forms.CharField(required=False,
-            widget=forms.Textarea(attrs={"cols": "80"}))
 
 def index_view(request):
     search_form = SearchForm()
@@ -71,14 +56,17 @@ def index_view(request):
         },
         context_instance=RequestContext(request))
 
+@login_required
 def bug_delete_comment(request, bug_id, comment_id):
     bug = Bugs.objects.get(bug_id=bug_id)
     comment = bug.longdescs_set.get(comment_id=comment_id)
-    comment.delete()
-    return HttpResponseRedirect("/bugs-ui/bug/%s/" % bug_id)
+    if request.user.username == comment.who.login_name:
+        comment.delete()
+        return HttpResponseRedirect("/bugs-ui/bug/%s/" % bug_id)
+    else:
+        raise Http404
 
 def bug_view(request, bug_id):
-    search_form = SearchForm()
     bug = Bugs.objects.get(bug_id=bug_id)
     if request.method == "GET" and request.user.is_authenticated():
         comment_form = CommentForm(request.GET)
@@ -110,7 +98,6 @@ def bug_view(request, bug_id):
         "bug": bug,
         "comments_first": comments_first,
         "comments_other": comments_other,
-        "search_form": search_form,
         "comment_form": comment_form,
         "prev_bug": prev_bug,
         "next_bug": next_bug,
@@ -120,16 +107,13 @@ def bug_view(request, bug_id):
         context_instance=RequestContext(request))
 
 def user_view(request, login_name):
-    search_form = SearchForm()
     user = Profiles.objects.get(login_name__exact=login_name)
     return render_to_response("user.html", {
         "user_info": user,
-        "search_form": search_form,
         },
         context_instance=RequestContext(request))
 
 def login_view(request):
-    search_form = SearchForm()
     if request.method == "GET":
         login_form  = AuthenticationForm()
     else:
@@ -142,7 +126,6 @@ def login_view(request):
             redirect_to = "/bugs-ui/"
             return HttpResponseRedirect(redirect_to)
     return render_to_response("login.html", {
-        "search_form": search_form,
         "login_form": login_form,
         },
         context_instance=RequestContext(request))
