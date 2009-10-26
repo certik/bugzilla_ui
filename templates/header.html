@@ -11,7 +11,7 @@
     <a href="http://hpfem.org/bugs/query.cgi?format=advanced">Advanced Search</a>
     <span class="bar">|</span>
     {% if user.is_authenticated %}
-        {{ user.username }}
+        {{ user.username }} (<a href="/bugs-ui/u/{{ user.username }}/">account</a>)
         <span class="bar">|</span>
         <a href="/bugs-ui/logout/">Logout</a>
     {% else %}
