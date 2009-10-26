@@ -72,6 +72,10 @@ TEMPLATE_DIRS = (
             root_dir + "/templates",
 )
 
+AUTHENTICATION_BACKENDS = (
+        'bugzilla_ui.ui.backends.BugzillaBackend',
+        )
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',

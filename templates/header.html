@@ -10,5 +10,11 @@
     <span class="bar">|</span>
     <a href="http://hpfem.org/bugs/query.cgi?format=advanced">Advanced Search</a>
     <span class="bar">|</span>
-    <a href="/bugs-ui/login/">Login</a>
+    {% if user.is_authenticated %}
+        {{ user.username }}
+        <span class="bar">|</span>
+        <a href="/bugs-ui/logout/">Logout</a>
+    {% else %}
+        <a href="/bugs-ui/login/">Login</a>
+    {% endif %}
 </div>

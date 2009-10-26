@@ -2,8 +2,11 @@ from django.shortcuts import render_to_response
 from django.conf.urls.defaults import patterns
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
+from django.contrib.auth.views import logout
 from django import forms
 from django.views.generic import list_detail
+from django.template import RequestContext
 
 from models import Bugs, Attachments, Profiles
 from bugzilla_ui import settings
@@ -13,6 +16,7 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^bug/(\d+)/$', 'bug_view'),
     (r'^u/(\S+)/$', 'user_view'),
     (r'^login/$', 'login_view'),
+    (r'^logout/$', logout, {"next_page": "/bugs-ui/"}),
     (r'^attachment/(\d+)/$', 'attachment_view'),
 )
 
@@ -55,8 +59,8 @@ def index_view(request):
     return render_to_response("index.html", {
         "bugs": bugs,
         "form": form,
-        "MEDIA_URL": settings.MEDIA_URL,
-        })
+        },
+        context_instance=RequestContext(request))
 
 def bug_view(request, bug_id):
     form = SearchForm()
@@ -80,27 +84,37 @@ def bug_view(request, bug_id):
         "next_bug": next_bug,
         "attachments": attachments,
         "keywords": bug.kws.all(),
-        "MEDIA_URL": settings.MEDIA_URL,
-        })
+        },
+        context_instance=RequestContext(request))
 
 def user_view(request, login_name):
     form = SearchForm()
     print "AUTH:", request.user.is_authenticated()
     user = Profiles.objects.get(login_name__exact=login_name)
     return render_to_response("user.html", {
-        "user": user,
+        "user_info": user,
         "form": form,
-        "MEDIA_URL": settings.MEDIA_URL,
-        })
+        },
+        context_instance=RequestContext(request))
 
 def login_view(request):
     form = SearchForm()
-    login_form  = AuthenticationForm()
+    if request.method == "GET":
+        login_form  = AuthenticationForm()
+    else:
+        assert request.method == "POST"
+        login_form = AuthenticationForm(data=request.POST)
+        if login_form.is_valid():
+            login(request, login_form.get_user())
+            if request.session.test_cookie_worked():
+                request.session.delete_test_cookie()
+            redirect_to = "/bugs-ui/"
+            return HttpResponseRedirect(redirect_to)
     return render_to_response("login.html", {
         "form": form,
         "login_form": login_form,
-        "MEDIA_URL": settings.MEDIA_URL,
-        })
+        },
+        context_instance=RequestContext(request))
 
 def attachment_view(request, attach_id):
     attachment = Attachments.objects.get(attach_id=attach_id)

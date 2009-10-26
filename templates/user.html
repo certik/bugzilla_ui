@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Issues User {{ user.login_name }}
+Issues User {{ user_info.login_name }}
 {% endblock %}
 
 {% block content %}
@@ -14,9 +14,9 @@ Issues User {{ user.login_name }}
         </div>
         <div id="metadata_user">
             <table>
-                <tr><td><b>Login name:</b></td><td>{{ user.login_name }}</a></td></tr>
-                <tr><td><b>Real name:</b></td><td>{{ user.realname }}</a></td></tr>
-                <tr><td><b>Pass:</b></td><td>{{ user.cryptpassword }}</a></td></tr>
+                <tr><td><b>Login name:</b></td><td>{{ user_info.login_name }}</a></td></tr>
+                <tr><td><b>Real name:</b></td><td>{{ user_info.realname }}</a></td></tr>
+                <tr><td><b>Pass:</b></td><td>{{ user_info.cryptpassword }}</a></td></tr>
             </table>
         </div>
     </div>
