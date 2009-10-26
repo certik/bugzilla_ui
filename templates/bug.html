@@ -52,7 +52,9 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                     by <a href="/bugs-ui/u/{{ comment.who.login_name }}/">{{ comment.who.realname }}</a>,
                     {{ comment.bug_when }}
 
-                    <a href="/bugs-ui/bug/{{ bug.bug_id }}/delete/{{ comment.comment_id }}">Delete comment</a>
+                    {% ifequal user.username comment.who.login_name %}
+                        <a href="/bugs-ui/bug/{{ bug.bug_id }}/delete/{{ comment.comment_id }}">Delete comment</a>
+                    {% endifequal %}
                 </div>
                 <div class="comment_body">
                     <pre>{{ comment.thetext|urlize }}</pre>
