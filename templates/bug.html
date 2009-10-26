@@ -11,8 +11,15 @@ function attach_file_click(event) {
     $("div.attachmentarea").show();
     $(event.target).hide();
 }
+
+function comment_area_click(event) {
+    event.preventDefault();
+    $("div.controls").show();
+}
+
 $(document).ready(function() {
     $("#attachafile").click(attach_file_click);
+    $("#comment_area").click(comment_area_click);
 });
 </script>
 {% endblock %}
@@ -82,12 +89,14 @@ $(document).ready(function() {
                 <div class="comment_body">
                     <form action="/bugs-ui/bug/{{ bug.bug_id }}/" method="POST" enctype="multipart/form-data">
                         {{ comment_form.comment_text }}<br/>
-                        <div class="attachmentarea">
-                            {{ comment_form.attachment }}
+                        <div class="controls">
+                            <div class="attachmentarea">
+                                {{ comment_form.attachment }}
+                            </div>
+                            <a href="" id="attachafile">Attach a file</a><br/>
+                            <br/>
+                            <input type="submit" value="Post comment"/>
                         </div>
-                        <a href="" id="attachafile">Attach a file</a><br/>
-                        <br/>
-                        <input type="submit" value="Post comment"/>
                     </form>
                 </div>
             {% else %}

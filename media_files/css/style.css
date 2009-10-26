@@ -150,3 +150,7 @@ table.attachments td {
 div.attachmentarea {
     display: none;
 }
+
+div.controls {
+    display: none;
+}
