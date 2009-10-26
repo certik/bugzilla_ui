@@ -136,6 +136,7 @@ def new_view(request):
             b.product = product
             b.component = Components.objects.filter(product=b.product).get(name="core")
             b.priority = "Medium"
+            b.bug_severity = "Minor"
             b.bug_status = "NEW"
             b.everconfirmed = 1 # NEW is a confirmed status
             b.assigned_to = who
