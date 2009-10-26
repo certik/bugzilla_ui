@@ -84,6 +84,7 @@ def bug_view(request, bug_id):
                     #text += "Got attachment: %s\n" % attachment
                     a = Attachments(bug=bug, submitter=who)
                     a.filename = attachment.name
+                    a.description = attachment.name
                     a.creation_ts = datetime.datetime.today()
                     a.modification_time = datetime.datetime.today()
                     a.isobsolete = 0
