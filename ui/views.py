@@ -171,7 +171,13 @@ def bug_view(request, bug_id):
             self.html_class = html_class
 
         def __unicode__(self):
-            return mark_safe(u'<input type="text" name="label_%d" class="%s" value="%s"/>' % (self.id, self.html_class, self.convert(self.initial)))
+            div = """
+<div class="menu">
+<ul id="menu_%d" class="menu">
+    <li>1</li>
+    <li>2</li>
+</ul></div>""" % self.id
+            return mark_safe(u'<input type="text" name="label_%d" class="%s" value="%s"/>%s' % (self.id, self.html_class, self.convert(self.initial), div))
 
         def convert(self, obj):
             if obj:

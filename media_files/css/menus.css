@@ -1,0 +1,23 @@
+ul.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    display: block;
+    z-index: 1000;
+    left: -1px;
+}
+
+ul.menu li {
+    border: 1px solid #254b6f;
+    background: #a9d5fd;
+    cursor: pointer;
+    width: 12em;
+    position: relative;
+    float: left;
+    margin: 0;
+}
+
+ul.menu li:hover {
+    background: #274af2;
+}
