@@ -11,7 +11,8 @@ from django.views.generic import list_detail
 from django.template import RequestContext
 from django.db.models import Q
 
-from models import Bugs, Attachments, Profiles, Longdescs, Products, Components
+from models import (Bugs, Attachments, Profiles, Longdescs, Products,
+        Components, OpSys)
 from forms import SearchForm, CommentForm, NewIssueForm
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
@@ -135,6 +136,7 @@ def new_view(request):
             b.alias = None
             b.product = product
             b.component = Components.objects.filter(product=b.product).get(name="core")
+            b.op_sys = OpSys.objects.get(value="All").value
             b.priority = "Medium"
             b.bug_severity = "Minor"
             b.bug_status = "NEW"

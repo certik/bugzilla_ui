@@ -52,6 +52,14 @@ class Keyworddefs(models.Model):
     class Meta:
         db_table = u'keyworddefs'
 
+class OpSys(models.Model):
+    id = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=192)
+    sortkey = models.IntegerField()
+    isactive = models.IntegerField()
+    class Meta:
+        db_table = u'op_sys'
+
 
 class Bugs(models.Model):
     bug_id = models.AutoField(primary_key=True)
@@ -348,14 +356,6 @@ class NamedqueryGroupMap(models.Model):
     group_id = models.IntegerField()
     class Meta:
         db_table = u'namedquery_group_map'
-
-class OpSys(models.Model):
-    id = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=192)
-    sortkey = models.IntegerField()
-    isactive = models.IntegerField()
-    class Meta:
-        db_table = u'op_sys'
 
 class Priority(models.Model):
     id = models.IntegerField(primary_key=True)
