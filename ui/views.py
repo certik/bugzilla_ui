@@ -126,13 +126,14 @@ def new_view(request):
         assert request.method == "POST"
         form = NewIssueForm(data=request.POST)
         if form.is_valid():
+            product = form.cleaned_data["product"]
             summary = form.cleaned_data["summary"]
             description = form.cleaned_data["description"]
             who = Profiles.objects.get(login_name=request.user.username)
             b = Bugs()
             b.short_desc = summary
             b.alias = None
-            b.product = Products.objects.get(name="Agros2D")
+            b.product = product
             b.component = Components.objects.filter(product=b.product).get(name="core")
             b.assigned_to = who
             b.delta_ts = datetime.datetime.today()

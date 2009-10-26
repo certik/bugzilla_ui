@@ -1,4 +1,10 @@
 from django import forms
+from models import Products
+
+class ProductChoiceField(forms.ModelChoiceField):
+
+    def label_from_instance(self, obj):
+        return obj.name
 
 class SearchForm(forms.Form):
     issue_types = forms.ChoiceField(choices=[
@@ -16,6 +22,10 @@ class CommentForm(forms.Form):
             widget=forms.Textarea(attrs={"cols": "80"}))
 
 class NewIssueForm(forms.Form):
+    product = ProductChoiceField(
+            queryset=Products.objects.all().order_by("name"),
+            empty_label=None,
+            required=True)
     summary = forms.CharField(required=True)
     description = forms.CharField(required=True,
             widget=forms.Textarea(attrs={"cols": "80"}))
