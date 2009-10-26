@@ -80,4 +80,3 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'bugzilla_ui.ui',
 )
-

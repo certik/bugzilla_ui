@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.conf.urls.defaults import patterns
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.views.generic import list_detail
 
@@ -11,6 +12,7 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^$', 'index_view'),
     (r'^bug/(\d+)/$', 'bug_view'),
     (r'^u/(\S+)/$', 'user_view'),
+    (r'^login/$', 'login_view'),
     (r'^attachment/(\d+)/$', 'attachment_view'),
 )
 
@@ -83,10 +85,20 @@ def bug_view(request, bug_id):
 
 def user_view(request, login_name):
     form = SearchForm()
+    print "AUTH:", request.user.is_authenticated()
     user = Profiles.objects.get(login_name__exact=login_name)
     return render_to_response("user.html", {
         "user": user,
         "form": form,
+        "MEDIA_URL": settings.MEDIA_URL,
+        })
+
+def login_view(request):
+    form = SearchForm()
+    login_form  = AuthenticationForm()
+    return render_to_response("login.html", {
+        "form": form,
+        "login_form": login_form,
         "MEDIA_URL": settings.MEDIA_URL,
         })
 
