@@ -137,12 +137,12 @@ def new_view(request):
             b.component = Components.objects.filter(product=b.product).get(name="core")
             b.priority = "Medium"
             b.bug_status = "NEW"
+            b.everconfirmed = 1 # NEW is a confirmed status
             b.assigned_to = who
             b.delta_ts = datetime.datetime.today()
             b.creation_ts = datetime.datetime.today()
             b.reporter = who
             b.votes = 0
-            b.everconfirmed = 0
             b.reporter_accessible = 1
             b.cclist_accessible = 1
             b.estimated_time = 0
