@@ -54,8 +54,9 @@ class Keyworddefs(models.Model):
 
 
 class Bugs(models.Model):
-    bug_id = models.IntegerField(primary_key=True)
-    assigned_to = models.IntegerField()
+    bug_id = models.AutoField(primary_key=True)
+    assigned_to = models.ForeignKey(Profiles, db_column="assigned_to",
+            related_name="assigned_to_set")
     bug_file_loc = models.TextField(blank=True)
     bug_severity = models.CharField(max_length=192)
     bug_status = models.CharField(max_length=192)
@@ -66,7 +67,7 @@ class Bugs(models.Model):
     priority = models.CharField(max_length=192)
     product = models.ForeignKey(Products)
     rep_platform = models.CharField(max_length=192)
-    reporter = models.IntegerField()
+    reporter = models.ForeignKey(Profiles, db_column="reporter")
     version = models.CharField(max_length=192)
     component = models.ForeignKey(Components)
     resolution = models.CharField(max_length=192)
@@ -74,7 +75,7 @@ class Bugs(models.Model):
     qa_contact = models.IntegerField(null=True, blank=True)
     status_whiteboard = models.TextField()
     votes = models.IntegerField()
-    #keywords = models.TextField()
+    keywords_field = models.TextField(db_column="keywords")
     kws = models.ManyToManyField(Keyworddefs, through="Keywords")
     lastdiffed = models.DateTimeField(null=True, blank=True)
     everconfirmed = models.IntegerField()

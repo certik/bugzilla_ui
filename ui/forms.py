@@ -14,3 +14,8 @@ class SearchForm(forms.Form):
 class CommentForm(forms.Form):
     comment_text = forms.CharField(required=False,
             widget=forms.Textarea(attrs={"cols": "80"}))
+
+class NewIssueForm(forms.Form):
+    summary = forms.CharField(required=True)
+    description = forms.CharField(required=True,
+            widget=forms.Textarea(attrs={"cols": "80"}))

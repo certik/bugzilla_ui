@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+New Issue
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+
+        {% include "header.html" %}
+
+        <div id="issue" class="panel">
+            <b>New Issue</b>
+            (bugzilla:
+    <a href="http://hpfem.org/bugs/enter_bug.cgi">new issue</a>)
+        </div>
+        <div id="metadata_user">
+{% if new_issue_form.errors %}
+<p>Please fill in all the fields below:</p>
+{% endif %}
+
+<form method="post" action="/bugs-ui/new/">
+<table>
+{% for field in new_issue_form %}
+    <tr><td><b>{{ field.label }}:</b></td><td>{{ field }}</td></tr>
+{% endfor %}
+    <tr><td></td><td><input type="submit" value="Submit issue" /></td></tr>
+</table>
+</form>
+        </div>
+    </div>
+{% endblock %}
+

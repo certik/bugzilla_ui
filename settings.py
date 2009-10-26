@@ -67,6 +67,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
+LOGIN_URL = "/bugs-ui/login/"
+
 ROOT_URLCONF = 'bugzilla_ui.urls'
 
 TEMPLATE_DIRS = (
