@@ -37,8 +37,9 @@ def index_view(request):
             priority = search_form.cleaned_data["priority"]
             keyword = search_form.cleaned_data["keyword"]
 
-            bugs = bugs.filter(Q(short_desc__icontains=search) | \
-                    Q(longdescs__thetext__icontains=search))
+            bugs = bugs.filter(short_desc__icontains=search) | \
+                    bugs.filter(longdescs__thetext__icontains=search)
+            bugs = bugs.distinct()
             if status != "":
                 bugs = bugs.filter(bug_status__exact=status)
             if priority != "":
