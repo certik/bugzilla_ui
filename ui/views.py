@@ -77,11 +77,11 @@ def bug_delete_comment(request, bug_id, comment_id):
 def extract_labels(d):
     id = 0
     labels = []
-    label = d.get("label_%d" % id, None)
-    while label:
-        id += 1
-        labels.append(label)
-        label = d.get("label_%d" % id, None)
+    for item in d:
+        if item.startswith("label_"):
+            label = d[item]
+            if label != "":
+                labels.append(label)
     return labels
 
 def update_labels(bug, labels):
@@ -101,7 +101,7 @@ def update_labels(bug, labels):
             cursor = connection.cursor()
             cursor.execute("DELETE FROM keywords WHERE bug_id = %s AND keywordid = %s", [bug.bug_id, kw.id])
             transaction.commit_unless_managed()
-        for l in labels:
+        for l in new_labels:
             kw = Keyworddefs.objects.get(name=l)
             k = Keywords(bug_id=bug, keywordid=kw)
             k.save()
