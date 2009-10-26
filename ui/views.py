@@ -14,7 +14,7 @@ from django.utils.safestring import mark_safe
 
 
 from models import (Bugs, Attachments, Profiles, Longdescs, Products,
-        Components, OpSys, RepPlatform, AttachData, Keyworddefs)
+        Components, OpSys, RepPlatform, AttachData, Keyworddefs, Keywords)
 from forms import SearchForm, CommentForm, NewIssueForm
 
 urlpatterns = patterns('bugzilla_ui.ui.views',
@@ -74,14 +74,54 @@ def bug_delete_comment(request, bug_id, comment_id):
     else:
         raise Http404
 
+def extract_labels(d):
+    id = 0
+    labels = []
+    label = d.get("label_%d" % id, None)
+    while label:
+        id += 1
+        labels.append(label)
+        label = d.get("label_%d" % id, None)
+    return labels
+
+def update_labels(bug, labels):
+    bug_labels = set([str(l.name) for l in bug.kws.all()])
+    new_labels = set(labels)
+    if bug_labels != new_labels:
+        for l in labels:
+            try:
+                kw = Keyworddefs.objects.get(name=l)
+            except Keyworddefs.DoesNotExist:
+                return False
+        # we have to delete all old labels, unfortunately the Keywords table
+        # has a multicolumn primary key, which django can't handle, so we have
+        # to use raw SQL
+        for kw in bug.kws.all():
+            from django.db import connection, transaction
+            cursor = connection.cursor()
+            cursor.execute("DELETE FROM keywords WHERE bug_id = %s AND keywordid = %s", [bug.bug_id, kw.id])
+            transaction.commit_unless_managed()
+        for l in labels:
+            kw = Keyworddefs.objects.get(name=l)
+            k = Keywords(bug_id=bug, keywordid=kw)
+            k.save()
+    return True
+
 def bug_view(request, bug_id):
+    error_msg = ""
     bug = Bugs.objects.get(bug_id=bug_id)
     if request.method == "POST" and request.user.is_authenticated():
         comment_form = CommentForm(request.POST, request.FILES)
         if comment_form.is_valid():
             text = comment_form.cleaned_data["comment_text"]
             attachment = request.FILES.get("attachment", None)
-            if text != "" or attachment is not None:
+            labels = extract_labels(request.POST)
+            if update_labels(bug, labels):
+                ok = True
+            else:
+                ok = False
+                error_msg = "Unknown label"
+            if ok and text != "" or attachment is not None:
                 who = Profiles.objects.get(login_name=request.user.username)
                 l = Longdescs(bug=bug, who=who)
                 if attachment:
@@ -131,7 +171,7 @@ def bug_view(request, bug_id):
             self.html_class = html_class
 
         def __unicode__(self):
-            return mark_safe(u'<input type="text" name="id_%d" class="%s" value="%s"/>' % (self.id, self.html_class, self.convert(self.initial)))
+            return mark_safe(u'<input type="text" name="label_%d" class="%s" value="%s"/>' % (self.id, self.html_class, self.convert(self.initial)))
 
         def convert(self, obj):
             if obj:
@@ -157,6 +197,7 @@ def bug_view(request, bug_id):
         "attachments": attachments,
         "keywords_fields": keywords_fields,
         "keywords": keywords,
+        "error_msg": error_msg,
         },
         context_instance=RequestContext(request))
 
