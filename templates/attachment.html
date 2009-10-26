@@ -4,6 +4,10 @@
 Attachment {{ attachment.filename }}
 {% endblock %}
 
+{% block header_ext %}
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/pygments.css" type="text/css" />
+{% endblock %}
+
 {% block content %}
     <div id="content">
 
@@ -13,8 +17,9 @@ Attachment {{ attachment.filename }}
             <b>Attachment: {{ attachment.filename }}</b>
                 (<a href="/bugs-ui/attachment/{{ attachment.attach_id }}/view/raw/">raw</a>)
         </div>
+        {% load colorize %}
         <div id="metadata_attachment">
-            <pre>{{ attachment_data }}</pre>
+            {{ attachment_data|colorize }}
         </div>
     </div>
 {% endblock %}
