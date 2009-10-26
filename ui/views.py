@@ -71,13 +71,17 @@ def bug_delete_comment(request, bug_id, comment_id):
 
 def bug_view(request, bug_id):
     bug = Bugs.objects.get(bug_id=bug_id)
-    if request.method == "GET" and request.user.is_authenticated():
-        comment_form = CommentForm(request.GET)
+    if request.method == "POST" and request.user.is_authenticated():
+        comment_form = CommentForm(request.POST, request.FILES)
         if comment_form.is_valid():
             text = comment_form.cleaned_data["comment_text"]
-            if text != "":
+            attachment = request.FILES.get("attachment", None)
+            if text != "" or attachment is not None:
                 who = Profiles.objects.get(login_name=request.user.username)
                 l = Longdescs(bug=bug, who=who)
+                if attachment:
+                    text += "Got attachment: %s\n" % attachment
+                    text += attachment.read()
                 l.thetext = text
                 l.bug_when = datetime.datetime.today()
                 l.work_time = 0

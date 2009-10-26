@@ -80,7 +80,7 @@ $(document).ready(function() {
                     Add a comment
                 </div>
                 <div class="comment_body">
-                    <form action="/bugs-ui/bug/{{ bug.bug_id }}/" method="GET">
+                    <form action="/bugs-ui/bug/{{ bug.bug_id }}/" method="POST" enctype="multipart/form-data">
                         {{ comment_form.comment_text }}<br/>
                         <div class="attachmentarea">
                             {{ comment_form.attachment }}

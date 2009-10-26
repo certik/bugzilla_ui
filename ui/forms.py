@@ -20,7 +20,7 @@ class SearchForm(forms.Form):
 class CommentForm(forms.Form):
     comment_text = forms.CharField(required=False,
             widget=forms.Textarea(attrs={"cols": "80"}))
-    attachment = forms.FileField()
+    attachment = forms.FileField(required=False)
 
 class NewIssueForm(forms.Form):
     product = ProductChoiceField(
