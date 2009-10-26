@@ -26,6 +26,7 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^attachment/(\d+)/$', 'attachment_view'),
     (r'^attachment/(\d+)/delete/$', 'delete_attachment'),
     (r'^attachment/(\d+)/view/$', 'view_attachment'),
+    (r'^attachment/(\d+)/view/raw/$', 'view_attachment_raw'),
 )
 
 def index_view(request):
@@ -225,10 +226,19 @@ def delete_attachment(request, attach_id):
     else:
         raise Http404
 
-def view_attachment(request, attach_id):
+def view_attachment_raw(request, attach_id):
     attachment = Attachments.objects.get(attach_id=attach_id)
     data = attachment.attachdata_set.get().thedata
     return HttpResponse(data, mimetype="text/plain")
+
+def view_attachment(request, attach_id):
+    attachment = Attachments.objects.get(attach_id=attach_id)
+    data = attachment.attachdata_set.get().thedata
+    return render_to_response("attachment.html", {
+        "attachment": attachment,
+        "attachment_data": data,
+        },
+        context_instance=RequestContext(request))
 
 def attachment_view(request, attach_id):
     attachment = Attachments.objects.get(attach_id=attach_id)

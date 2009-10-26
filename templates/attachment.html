@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attachment {{ attachment.filename }}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+
+        {% include "header.html" %}
+
+        <div id="issue" class="panel">
+            <b>Attachment: {{ attachment.filename }}</b>
+                (<a href="/bugs-ui/attachment/{{ attachment.attach_id }}/view/raw/">raw</a>)
+        </div>
+        <div id="metadata_attachment">
+            <pre>{{ attachment_data }}</pre>
+        </div>
+    </div>
+{% endblock %}
+
