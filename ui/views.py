@@ -7,6 +7,7 @@ from django.contrib.auth.views import logout
 from django import forms
 from django.views.generic import list_detail
 from django.template import RequestContext
+from django.db.models import Q
 
 from models import Bugs, Attachments, Profiles
 from bugzilla_ui import settings
@@ -44,7 +45,8 @@ def index_view(request):
             priority = search_form.cleaned_data["priority"]
             keyword = search_form.cleaned_data["keyword"]
 
-            bugs = bugs.filter(short_desc__icontains=search)
+            bugs = bugs.filter(Q(short_desc__icontains=search) | \
+                    Q(longdescs__thetext__icontains=search))
             if status != "":
                 bugs = bugs.filter(bug_status__exact=status)
             if priority != "":
