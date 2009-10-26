@@ -13,8 +13,8 @@
     {% if user.is_authenticated %}
         {{ user.username }} (<a href="/bugs-ui/u/{{ user.username }}/">account</a>)
         <span class="bar">|</span>
-        <a href="/bugs-ui/logout/">Logout</a>
+        <a href="/bugs-ui/logout/?next={{ request_path }}">Logout</a>
     {% else %}
-        <a href="/bugs-ui/login/">Login</a>
+        <a href="/bugs-ui/login/?next={{ request_path }}">Login</a>
     {% endif %}
 </div>

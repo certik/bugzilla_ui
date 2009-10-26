@@ -79,6 +79,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "bugzilla_ui.ui.context_processors.search_form",
+    "bugzilla_ui.ui.context_processors.request_path",
 )
 
 

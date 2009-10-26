@@ -74,7 +74,7 @@ Issue {{ bug.bug_id }} - {{ bug.short_desc }}
                 </div>
             {% else %}
                 <div class="comment_head">
-                    <a href="/bugs-ui/login/">Login</a> to add a comment.
+                    <a href="/bugs-ui/login/?next={{ request_path }}">Login</a> to add a comment.
                 </div>
             {% endif %}
             </div>

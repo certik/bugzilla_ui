@@ -20,7 +20,7 @@ urlpatterns = patterns('bugzilla_ui.ui.views',
     (r'^bug/(\d+)/delete/(\d+)/$', 'bug_delete_comment'),
     (r'^u/(\S+)/$', 'user_view'),
     (r'^login/$', 'login_view'),
-    (r'^logout/$', logout, {"next_page": "/bugs-ui/"}),
+    (r'^logout/$', 'logout_view'),
     (r'^attachment/(\d+)/$', 'attachment_view'),
 )
 
@@ -123,12 +123,16 @@ def login_view(request):
             login(request, login_form.get_user())
             if request.session.test_cookie_worked():
                 request.session.delete_test_cookie()
-            redirect_to = "/bugs-ui/"
+            redirect_to = request.REQUEST.get("next", "/bugs-ui/")
             return HttpResponseRedirect(redirect_to)
     return render_to_response("login.html", {
         "login_form": login_form,
+        "next": request.REQUEST.get("next", "/bugs-ui/")
         },
         context_instance=RequestContext(request))
+
+def logout_view(request):
+    return logout(request, next_page=request.REQUEST.get("next", "/bugs-ui/"))
 
 def attachment_view(request, attach_id):
     attachment = Attachments.objects.get(attach_id=attach_id)
